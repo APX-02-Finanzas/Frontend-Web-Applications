@@ -1,0 +1,90 @@
+.client-card {
+  background-color: #CDE1EE;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.client-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.client-name {
+  text-align: center;
+  margin: 0 0 16px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2C4452;
+  border-bottom: 2px solid #A8C6D9;
+  padding-bottom: 8px;
+}
+
+.client-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 44px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.label {
+  font-weight: 500;
+  color: #2C4452;
+  font-size: 0.9rem;
+}
+
+.value {
+  font-weight: 400;
+  color: #4A6572;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.can-apply {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.cannot-apply {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.edit-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  background-color: #4D90BA;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(77,144,186,0.16);
+}
+.edit-btn:hover {
+  filter: brightness(0.95);
+}
+
+@media (max-width: 760px) {
+  .edit-btn {
+    padding: 6px 10px;
+    right: 8px;
+    bottom: 8px;
+  }
+}

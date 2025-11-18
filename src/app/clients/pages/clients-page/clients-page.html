@@ -1,0 +1,25 @@
+<div class="clients-page">
+  <header class="page-header">
+    <h1>Clientes</h1>
+  </header>
+
+  <div class="page-content">
+    <div *ngIf="loading" class="loading-state">
+      <p>Cargando clientes...</p>
+    </div>
+
+    <div *ngIf="error && !loading" class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="loadClients()">Reintentar</button>
+    </div>
+
+    <app-client-list
+      *ngIf="!loading && !error"
+      [clients]="clients">
+    </app-client-list>
+  </div>
+
+  <button class="create-btn" (click)="onCreate()">
+    Crear Cliente
+  </button>
+</div>

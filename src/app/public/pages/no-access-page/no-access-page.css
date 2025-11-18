@@ -1,0 +1,89 @@
+.no-access-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(to bottom, #D5D8B9 0%, #60A6A6 58%, #278D82 100%);
+}
+
+.access-container {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #2C4452;
+  margin: 0 0 16px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+p {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-btn, .home-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.login-btn {
+  background-color: #4D90BA;
+  color: white;
+}
+
+.login-btn:hover {
+  background-color: #3a7ca5;
+  transform: translateY(-1px);
+}
+
+.home-btn {
+  background-color: transparent;
+  color: #2C4452;
+  border: 2px solid #2C4452;
+}
+
+.home-btn:hover {
+  background-color: #2C4452;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .access-container {
+    padding: 30px 20px;
+    margin: 0 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .icon {
+    font-size: 3rem;
+  }
+}

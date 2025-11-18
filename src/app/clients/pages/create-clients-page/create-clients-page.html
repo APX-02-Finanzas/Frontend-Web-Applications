@@ -1,0 +1,33 @@
+<div class="create-clients-page">
+  <header class="page-header">
+    <h1>Crear Cliente</h1>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
+    <label class="label">Nombre:</label>
+    <input class="input" formControlName="name" type="text" />
+
+    <label class="label">Email:</label>
+    <input class="input" formControlName="email" type="email" />
+
+    <label class="label">Celular:</label>
+    <input class="input" formControlName="phone" type="text" />
+
+    <label class="label">DNI:</label>
+    <input class="input" formControlName="dni" type="text" />
+
+    <label class="label">Ingreso mensual:</label>
+    <input class="input" formControlName="monthlyIncome" type="number" />
+
+    <label class="label">Gasto mensual:</label>
+    <input class="input" formControlName="monthlyExpenses" type="number" />
+
+    <button type="submit" class="create-btn" [disabled]="form.invalid || submitting">
+      Crear Cliente
+    </button>
+
+    <button type="button" class="cancel-btn" (click)="onCancel()">
+      ← Cancelar
+    </button>
+  </form>
+</div>

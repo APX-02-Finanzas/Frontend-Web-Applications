@@ -1,0 +1,17 @@
+<form class="signup-panel" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2 class="title">Iniciar Sesión</h2>
+
+  <label class="label">Usuario *</label>
+  <input class="input" type="text" formControlName="username"/>
+
+  <label class="label">Contraseña *</label>
+  <input class="input" type="password" formControlName="password"/>
+
+  <button class="btn" type="submit" [disabled]="form.invalid || submitting">
+    Iniciar Sesión
+  </button>
+
+  <div class="login-link">
+    No tienes una cuenta? <a href="#" (click)="onSwitchToSignUp($event)">Créate una</a>
+  </div>
+</form>

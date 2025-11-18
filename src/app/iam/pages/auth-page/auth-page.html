@@ -1,0 +1,4 @@
+<div class="auth-page">
+  <app-sign-in-box *ngIf="showSignIn" (switchTo)="onSwitch($event)"></app-sign-in-box>
+  <app-sign-up-box *ngIf="!showSignIn" (switchTo)="onSwitch($event)"></app-sign-up-box>
+</div>

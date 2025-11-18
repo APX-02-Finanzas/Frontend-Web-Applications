@@ -1,0 +1,25 @@
+.client-list {
+  padding: 20px;
+}
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.client-grid-item {
+  min-height: 300px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.empty-state p {
+  margin: 0;
+}

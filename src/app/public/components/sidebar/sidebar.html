@@ -1,0 +1,32 @@
+<aside class="sidebar" role="navigation" aria-label="Sidebar principal">
+  <div class="top">
+    <div class="profile">
+      <img class="avatar" [src]="avatarUrl" alt="Imagen de perfil" />
+      <div class="profile-name">{{ fullName }}</div>
+    </div>
+
+    <nav class="menu" aria-label="Menú principal">
+      <a href="#" class="menu-item" [class.active]="active === 'clientes'" (click)="select('clientes', $event)">
+        <img class="icon" src="/assets/ic_clientes.png" alt="Clientes" />
+        <span class="label">Clientes</span>
+      </a>
+
+      <a href="#" class="menu-item" [class.active]="active === 'inmobiliario'" (click)="select('inmobiliario', $event)">
+        <img class="icon" src="/assets/ic_inmobiliario.png" alt="Inmobiliario" />
+        <span class="label">Inmobiliario</span>
+      </a>
+
+      <a href="#" class="menu-item" [class.active]="active === 'creditos'" (click)="select('creditos', $event)">
+        <img class="icon" src="/assets/ic_creditos.png" alt="Créditos" />
+        <span class="label">Créditos</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="bottom">
+    <a href="#" class="logout" (click)="logout($event)">
+      <img class="icon" src="/assets/ic_logout.png" alt="Salir" />
+      <span class="label">Cerrar sesión</span>
+    </a>
+  </div>
+</aside>

@@ -1,0 +1,13 @@
+<div class="client-list">
+  <div class="client-grid">
+    <app-client-card
+      *ngFor="let client of clients"
+      [client]="client"
+      class="client-grid-item">
+    </app-client-card>
+  </div>
+
+  <div *ngIf="clients.length === 0" class="empty-state">
+    <p>No hay clientes registrados</p>
+  </div>
+</div>

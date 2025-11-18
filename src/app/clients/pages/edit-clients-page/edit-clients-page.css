@@ -1,0 +1,80 @@
+.edit-clients-page {
+  padding: 28px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page-header h1 {
+  margin: 0 0 18px 0;
+  color: #2C4452;
+  font-size: 1.8rem;
+  text-align: left;
+}
+
+.form-panel {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-weight: 600;
+  color: #2C4452;
+}
+
+.input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cfcfcf;
+  font-size: 1rem;
+}
+
+.create-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background-color: #4D90BA;
+  color: #ffffff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 120;
+  box-shadow: 0 6px 18px rgba(77,144,186,0.18);
+}
+.create-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  background: transparent;
+  border: none;
+  color: #2C4452;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 120;
+}
+
+@media (max-width: 760px) {
+  .create-btn {
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 14px;
+  }
+  .cancel-btn {
+    left: 12px;
+    bottom: 12px;
+  }
+}

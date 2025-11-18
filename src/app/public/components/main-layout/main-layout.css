@@ -1,0 +1,17 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+@media (max-width: 760px) {
+  .main-content {
+    margin-left: 84px;
+  }
+}
