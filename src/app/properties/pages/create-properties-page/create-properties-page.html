@@ -1,0 +1,66 @@
+<div class="create-properties-page">
+  <header class="page-header">
+    <h1>Crear Inmobiliario</h1>
+  </header>
+
+  <section class="form-wrapper">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Proyecto *</label>
+          <input class="input" type="text" formControlName="title" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Dirección *</label>
+          <input class="input" type="text" formControlName="address" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Precio de venta *</label>
+          <input class="input" type="number" formControlName="price" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Tipo de cambio *</label>
+          <select class="input" formControlName="currency">
+            <option *ngFor="let c of currencies" [value]="c">{{ c }}</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="label">Area m² *</label>
+          <input class="input" type="number" formControlName="areaM2" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field small">
+          <label class="label">Habitaciones *</label>
+          <select class="input" formControlName="rooms">
+            <option *ngFor="let r of roomsOptions" [value]="r">{{ r }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="cancel-btn"
+          (click)="onCancel()">
+          Volver
+        </button>
+
+        <button
+          type="submit"
+          class="create-btn"
+          [disabled]="form.invalid || submitting">
+          Crear inmobiliario
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

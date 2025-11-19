@@ -1,0 +1,79 @@
+.property-card {
+  background-color: #CDE1EE;
+  width: 100%;
+  border-radius: 24px;
+  padding: 28px 36px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.property-header h3 {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.7);
+  padding-bottom: 10px;
+  border-bottom: 2px solid #A8C6D9;
+}
+
+.property-body {
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+  flex-wrap: wrap;
+  font-size: 16px;
+}
+
+.property-column {
+  flex: 1;
+  min-width: 260px;
+}
+
+.property-row {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.label {
+  font-weight: 600;
+  margin-right: 6px;
+  color: rgba(0, 0, 0, 0.7);
+  min-width: 110px;
+  padding-bottom: 15px;
+}
+
+.value {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.property-footer {
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.edit-btn {
+  border: none;
+  background-color: #4d90ba;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(77,144,186,0.18);
+
+}
+
+.edit-btn:hover {
+  filter: brightness(0.95);
+}
+
+@media (max-width: 768px) {
+  .property-body {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

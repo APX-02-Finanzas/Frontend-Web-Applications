@@ -1,0 +1,25 @@
+.property-list {
+  width: 100%;
+}
+
+.property-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.property-grid-item {
+  min-height: 300px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.empty-state p {
+  margin: 0;
+}

@@ -1,0 +1,13 @@
+<div class="property-list">
+  <div class="property-grid">
+    <app-property-card
+      *ngFor="let property of properties"
+      [property]="property"
+      class="property-grid-item">
+    </app-property-card>
+  </div>
+
+  <div *ngIf="properties.length === 0" class="empty-state">
+    <p>No hay propiedades registradas</p>
+  </div>
+</div>

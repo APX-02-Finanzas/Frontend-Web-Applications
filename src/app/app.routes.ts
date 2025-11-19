@@ -7,6 +7,9 @@ import { CreateClientsPage } from './clients/pages/create-clients-page/create-cl
 import { AuthGuard } from './shared/guards/auth.guard';
 import {NoAccessPage} from './public/pages/no-access-page/no-access-page';
 import {NotFoundPage} from './public/pages/not-found-page/not-found-page';
+import {PropertiesPage} from './properties/pages/properties-page/properties-page';
+import {CreatePropertiesPage} from './properties/pages/create-properties-page/create-properties-page';
+import {EditPropertiesPage} from './properties/pages/edit-properties-page/edit-properties-page';
 
 export const routes: Routes = [
   { path: "", redirectTo: "/auth", pathMatch: "full" },
@@ -21,6 +24,9 @@ export const routes: Routes = [
       { path: "clients", component: ClientsPage },
       { path: "clients/create", component: CreateClientsPage },
       { path: "clients/edit/:id", component: EditClientsPage },
+      { path: "properties", component: PropertiesPage },
+      { path: "properties/create", component: CreatePropertiesPage },
+      { path: 'properties/edit/:id', component: EditPropertiesPage },
       { path: "**", component: NotFoundPage }
     ]
   },

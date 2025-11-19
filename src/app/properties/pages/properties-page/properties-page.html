@@ -1,0 +1,26 @@
+<div class="properties-page">
+  <header class="page-header">
+    <h1>Inmobiliarios</h1>
+  </header>
+
+  <div class="page-content">
+    <div *ngIf="loading" class="loading-state">
+      <p>Cargando propiedades...</p>
+    </div>
+
+    <div *ngIf="error && !loading" class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="loadProperties()">Reintentar</button>
+    </div>
+
+    <app-property-list
+      *ngIf="!loading && !error"
+      [properties]="properties">
+    </app-property-list>
+  </div>
+
+  <button class="create-btn" (click)="onCreate()">
+    Crear Inmobiliario
+  </button>
+</div>
+

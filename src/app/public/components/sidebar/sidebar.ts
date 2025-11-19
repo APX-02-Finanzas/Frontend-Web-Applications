@@ -42,7 +42,7 @@ export class Sidebar implements OnInit, OnDestroy {
     if (!url) return;
     if (url.startsWith('/clients')) {
       this.active = 'clientes';
-    } else if (url.startsWith('/inmobiliario')) {
+    } else if (url.startsWith('/properties')) {
       this.active = 'inmobiliario';
     } else if (url.startsWith('/creditos')) {
       this.active = 'creditos';
@@ -103,7 +103,7 @@ export class Sidebar implements OnInit, OnDestroy {
     if (item === 'clientes') {
       this.router.navigate(['/clients']);
     } else if (item === 'inmobiliario') {
-      this.router.navigate(['/inmobiliario']);
+      this.router.navigate(['/properties']);
     } else if (item === 'creditos') {
       this.router.navigate(['/creditos']);
     }

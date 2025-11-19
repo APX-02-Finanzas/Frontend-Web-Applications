@@ -1,0 +1,39 @@
+<div class="property-card">
+  <div class="property-header">
+    <h3>{{ property.title }}</h3>
+  </div>
+
+  <div class="property-body">
+    <div class="property-column">
+      <div class="property-row">
+        <span class="label">Dirección:</span>
+        <span class="value">{{ property.address }}</span>
+      </div>
+
+    </div>
+    <div class="property-column">
+      <div class="property-row">
+        <span class="label">Precio de venta:</span>
+        <span class="value">
+          <ng-container [ngSwitch]="property.currency">
+            <span *ngSwitchCase="'PEN'">S/.</span>
+            <span *ngSwitchCase="'USD'">USD</span>
+            <span *ngSwitchCase="'EUR'">€</span>
+            <span *ngSwitchDefault>{{ property.currency }}</span>
+          </ng-container>
+          {{ property.price | number:'1.0-2' }}
+        </span>
+      </div>
+      <div class="property-row">
+        <span class="label">Tipo de cambio:</span>
+        <span class="value">{{ property.currency }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="property-footer">
+    <button class="edit-btn" (click)="onEdit()">
+      Editar inmobiliario
+    </button>
+  </div>
+</div>
