@@ -12,31 +12,57 @@
     <button (click)="onCancel()">Volver</button>
   </div>
 
-  <form *ngIf="!loading && !error" [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
-    <label class="label">Nombre:</label>
-    <input class="input" formControlName="name" type="text" />
+  <section *ngIf="!loading && !error" class="form-wrapper">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
 
-    <label class="label">Email:</label>
-    <input class="input" formControlName="email" type="email" />
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Nombre *</label>
+          <input class="input" type="text" formControlName="name" />
+        </div>
 
-    <label class="label">Celular:</label>
-    <input class="input" formControlName="phone" type="text" />
+        <div class="form-field">
+          <label class="label">DNI *</label>
+          <input class="input" type="text" formControlName="dni" />
+        </div>
+      </div>
 
-    <label class="label">DNI:</label>
-    <input class="input" formControlName="dni" type="text" />
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Email *</label>
+          <input class="input" type="email" formControlName="email" />
+        </div>
 
-    <label class="label">Ingreso mensual:</label>
-    <input class="input" formControlName="monthlyIncome" type="number" />
+        <div class="form-field">
+          <label class="label">Celular *</label>
+          <input class="input" type="text" formControlName="phone" />
+        </div>
+      </div>
 
-    <label class="label">Gasto mensual:</label>
-    <input class="input" formControlName="monthlyExpenses" type="number" />
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Ingreso mensual *</label>
+          <input class="input" type="number" formControlName="monthlyIncome" />
+        </div>
 
-    <button type="submit" class="create-btn" [disabled]="form.invalid || submitting">
-      Editar Cliente
-    </button>
+        <div class="form-field">
+          <label class="label">Gasto mensual *</label>
+          <input class="input" type="number" formControlName="monthlyExpenses" />
+        </div>
+      </div>
 
-    <button type="button" class="cancel-btn" (click)="onCancel()">
-      ← Cancelar
-    </button>
-  </form>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="onCancel()">
+          Volver
+        </button>
+
+        <button
+          type="submit"
+          class="create-btn"
+          [disabled]="form.invalid || submitting">
+          Editar Cliente
+        </button>
+      </div>
+    </form>
+  </section>
 </div>

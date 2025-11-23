@@ -10,7 +10,7 @@ import { AuthService } from '../../../iam/services/auth.service';
   selector: 'app-create-clients-page',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './create-clients-page.html',
-  styleUrls: ['./create-clients-page.css']
+  styleUrls: ['./create-clients-page.css'],
 })
 export class CreateClientsPage {
   form: FormGroup;
@@ -28,7 +28,7 @@ export class CreateClientsPage {
       phone: ['', Validators.required],
       dni: ['', Validators.required],
       monthlyIncome: [0, [Validators.required, Validators.min(0)]],
-      monthlyExpenses: [0, [Validators.required, Validators.min(0)]]
+      monthlyExpenses: [0, [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -49,7 +49,7 @@ export class CreateClientsPage {
       dni: (this.form.get('dni')?.value ?? '').toString(),
       salesManId: salesManId,
       monthlyIncome: Number(this.form.get('monthlyIncome')?.value) || 0,
-      monthlyExpenses: Number(this.form.get('monthlyExpenses')?.value) || 0
+      monthlyExpenses: Number(this.form.get('monthlyExpenses')?.value) || 0,
     };
 
     this.clientsService.create(payload as any).subscribe({
