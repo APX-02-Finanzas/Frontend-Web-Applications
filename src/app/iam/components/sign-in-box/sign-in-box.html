@@ -1,17 +1,41 @@
 <form class="signup-panel" [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2 class="title">Iniciar Sesión</h2>
 
-  <label class="label">Usuario *</label>
-  <input class="input" type="text" formControlName="username"/>
+  <div class="field">
+    <div class="field-head">
+      <label class="label">Usuario *</label>
+      <div class="inline-error" *ngIf="usernameCtrl?.touched && usernameCtrl?.invalid">
+        <span *ngIf="usernameCtrl?.errors?.['required']">El usuario es obligatorio.</span>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="input" type="text" formControlName="username"/>
+    </div>
+  </div>
 
-  <label class="label">Contraseña *</label>
-  <input class="input" type="password" formControlName="password"/>
+  <div class="field">
+    <div class="field-head">
+      <label class="label">Contraseña *</label>
+      <div class="inline-error" *ngIf="passwordCtrl?.touched && passwordCtrl?.invalid">
+        <span *ngIf="passwordCtrl?.errors?.['required']">La contraseña es obligatoria.</span>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="input" [attr.type]="passwordVisible ? 'text' : 'password'" formControlName="password"/>
+      <button type="button"
+              class="toggle-pass-text"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        {{ passwordVisible ? 'Ocultar' : 'Mostrar' }}
+      </button>
+    </div>
+  </div>
 
   <button class="btn" type="submit" [disabled]="form.invalid || submitting">
     Iniciar Sesión
   </button>
 
   <div class="login-link">
-    No tienes una cuenta? <a href="#" (click)="onSwitchToSignUp($event)">Créate una</a>
+    ¿No tienes una cuenta? <a href="#" (click)="onSwitchToSignUp($event)">Créate una</a>
   </div>
 </form>

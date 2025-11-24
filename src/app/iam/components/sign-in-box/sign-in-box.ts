@@ -15,12 +15,25 @@ export class SignInBox {
   @Output() switchTo = new EventEmitter<'sign-up' | 'sign-in'>();
   form: FormGroup;
   submitting = false;
+  passwordVisible = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
+  }
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  get usernameCtrl() {
+    return this.form.get('username');
+  }
+
+  get passwordCtrl() {
+    return this.form.get('password');
   }
 
   onSubmit(): void {
@@ -30,8 +43,8 @@ export class SignInBox {
     }
 
     this.submitting = true;
-    const username = (this.form.get('username')?.value ?? '').toString();
-    const password = (this.form.get('password')?.value ?? '').toString();
+    const username = (this.usernameCtrl?.value ?? '').toString();
+    const password = (this.passwordCtrl?.value ?? '').toString();
 
     this.authService.login(username, password).subscribe({
       next: (user) => {

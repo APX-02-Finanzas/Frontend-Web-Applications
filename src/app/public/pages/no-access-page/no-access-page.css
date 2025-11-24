@@ -42,7 +42,7 @@ p {
   gap: 12px;
 }
 
-.login-btn, .home-btn {
+.login-btn{
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
@@ -60,17 +60,6 @@ p {
 .login-btn:hover {
   background-color: #3a7ca5;
   transform: translateY(-1px);
-}
-
-.home-btn {
-  background-color: transparent;
-  color: #2C4452;
-  border: 2px solid #2C4452;
-}
-
-.home-btn:hover {
-  background-color: #2C4452;
-  color: white;
 }
 
 @media (max-width: 480px) {
