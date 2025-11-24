@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -14,6 +14,8 @@ export class SignUpBox {
   @Output() switchTo = new EventEmitter<'sign-up' | 'sign-in'>();
   form: FormGroup;
   submitting = false;
+  passwordVisible = false;
+  confirmPasswordVisible = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.form = this.fb.group({
@@ -22,8 +24,30 @@ export class SignUpBox {
       email: ['', [Validators.required, Validators.email]],
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
-    });
+      confirmPassword: ['', Validators.required],
+    }, { validators: this.passwordsMatchValidator });
   }
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  }
+
+  get nameCtrl() { return this.form.get('name'); }
+  get surnameCtrl() { return this.form.get('surname'); }
+  get emailCtrl() { return this.form.get('email'); }
+  get usernameCtrl() { return this.form.get('username'); }
+  get passwordCtrl() { return this.form.get('password'); }
+  get confirmPasswordCtrl() { return this.form.get('confirmPassword'); }
+
+  passwordsMatchValidator: ValidatorFn = (control: AbstractControl) => {
+    const pass = control.get('password')?.value;
+    const confirm = control.get('confirmPassword')?.value;
+    return pass && confirm && pass !== confirm ? { passwordMismatch: true } : null;
+  };
 
   onSubmit(): void {
     if (this.form.invalid) {
@@ -33,11 +57,11 @@ export class SignUpBox {
 
     this.submitting = true;
 
-    const username = (this.form.get('username')?.value ?? '').toString();
-    const password = (this.form.get('password')?.value ?? '').toString();
-    const name = (this.form.get('name')?.value ?? '').toString();
-    const surname = (this.form.get('surname')?.value ?? '').toString();
-    const email = (this.form.get('email')?.value ?? '').toString();
+    const username = (this.usernameCtrl?.value ?? '').toString();
+    const password = (this.passwordCtrl?.value ?? '').toString();
+    const name = (this.nameCtrl?.value ?? '').toString();
+    const surname = (this.surnameCtrl?.value ?? '').toString();
+    const email = (this.emailCtrl?.value ?? '').toString();
 
     this.authService.signup(username, password, name, surname, email, 'ROLE_SALESMAN')
       .subscribe({
@@ -46,7 +70,6 @@ export class SignUpBox {
           console.log('Respuesta del servidor:', response);
           alert(`Cuenta creada correctamente para: ${response.username}`);
           this.form.reset();
-          // después de crear la cuenta, enviar al login
           this.switchTo.emit('sign-in');
         },
         error: err => {

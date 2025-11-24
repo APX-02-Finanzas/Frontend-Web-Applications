@@ -1,20 +1,88 @@
 <form class="signup-panel" [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2 class="title">Regístrate</h2>
 
-  <label class="label">Nombre *</label>
-  <input class="input" type="text" formControlName="name" />
+  <div class="row" style="display:flex; gap:12px; align-items:flex-start;">
+    <div class="col field" style="flex:1">
+      <div class="field-head">
+        <label class="label">Nombre *</label>
+        <div class="inline-error" *ngIf="nameCtrl?.touched && nameCtrl?.invalid">
+          <span *ngIf="nameCtrl?.errors?.['required']">El nombre es obligatorio.</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <input class="input" type="text" formControlName="name" />
+      </div>
+    </div>
 
-  <label class="label">Apellido *</label>
-  <input class="input" type="text" formControlName="surname" />
+    <div class="col field" style="flex:1">
+      <div class="field-head">
+        <label class="label">Apellido *</label>
+        <div class="inline-error" *ngIf="surnameCtrl?.touched && surnameCtrl?.invalid">
+          <span *ngIf="surnameCtrl?.errors?.['required']">El apellido es obligatorio.</span>
+        </div>
+      </div>
+      <div class="input-row">
+        <input class="input" type="text" formControlName="surname" />
+      </div>
+    </div>
+  </div>
 
-  <label class="label">Correo *</label>
-  <input class="input" type="email" formControlName="email" />
+  <div class="field">
+    <div class="field-head">
+      <label class="label">Correo *</label>
+      <div class="inline-error" *ngIf="emailCtrl?.touched && emailCtrl?.invalid">
+        <span *ngIf="emailCtrl?.errors?.['required']">El correo es obligatorio.</span>
+        <span *ngIf="emailCtrl?.errors?.['email']">Formato de correo inválido.</span>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="input" type="email" formControlName="email" />
+    </div>
+  </div>
 
-  <label class="label">Usuario *</label>
-  <input class="input" type="text" formControlName="username" />
+  <div class="field">
+    <div class="field-head">
+      <label class="label">Usuario *</label>
+      <div class="inline-error" *ngIf="usernameCtrl?.touched && usernameCtrl?.invalid">
+        <span *ngIf="usernameCtrl?.errors?.['required']">El usuario es obligatorio.</span>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="input" type="text" formControlName="username" />
+    </div>
+  </div>
 
-  <label class="label">Contraseña *</label>
-  <input class="input" type="password" formControlName="password" />
+  <div class="field">
+    <div class="field-head">
+      <label class="label">Contraseña *</label>
+      <div class="inline-error" *ngIf="passwordCtrl?.touched && passwordCtrl?.invalid">
+        <span *ngIf="passwordCtrl?.errors?.['required']">La contraseña es obligatoria.</span>
+        <span *ngIf="passwordCtrl?.errors?.['minlength']">La contraseña debe tener al menos 3 caracteres.</span>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="input" [attr.type]="passwordVisible ? 'text' : 'password'" formControlName="password" />
+      <button type="button" class="toggle-pass-text" (click)="togglePasswordVisibility()" [attr.aria-label]="passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        {{ passwordVisible ? 'Ocultar' : 'Mostrar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="field-head">
+      <label class="label">Confirmar contraseña *</label>
+      <div class="inline-error" *ngIf="confirmPasswordCtrl?.touched && (confirmPasswordCtrl?.invalid || form.errors?.['passwordMismatch'])">
+        <span *ngIf="confirmPasswordCtrl?.errors?.['required']">Confirmar contraseña es obligatorio.</span>
+        <span *ngIf="form.errors?.['passwordMismatch'] && confirmPasswordCtrl?.touched">Las contraseñas no coinciden.</span>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="input" [attr.type]="confirmPasswordVisible ? 'text' : 'password'" formControlName="confirmPassword" />
+      <button type="button" class="toggle-pass-text" (click)="toggleConfirmPasswordVisibility()" [attr.aria-label]="confirmPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+        {{ confirmPasswordVisible ? 'Ocultar' : 'Mostrar' }}
+      </button>
+    </div>
+  </div>
 
   <button class="btn" type="submit" [disabled]="form.invalid || submitting">
     Crear cuenta
