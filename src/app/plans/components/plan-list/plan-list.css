@@ -1,0 +1,25 @@
+.plan-list {
+  width: 100%;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px));
+  gap: 24px;
+  width: 100%;
+}
+
+.plan-grid-item {
+  min-height: 260px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.empty-state p {
+  margin: 0;
+}

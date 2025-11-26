@@ -10,6 +10,10 @@ import {NotFoundPage} from './public/pages/not-found-page/not-found-page';
 import {PropertiesPage} from './properties/pages/properties-page/properties-page';
 import {CreatePropertiesPage} from './properties/pages/create-properties-page/create-properties-page';
 import {EditPropertiesPage} from './properties/pages/edit-properties-page/edit-properties-page';
+import {PlanPage} from './plans/pages/plans-page/plan-page';
+import {CreatePlanPage} from './plans/pages/create-plans-page/create-plan-page';
+import {EditPlanPage} from './plans/pages/edit-plans-page/edit-plan-page';
+import {DetailPlanPage} from './plans/pages/detail-plans-page/detail-plan-page';
 
 export const routes: Routes = [
   { path: "", redirectTo: "/auth", pathMatch: "full" },
@@ -27,6 +31,10 @@ export const routes: Routes = [
       { path: "properties", component: PropertiesPage },
       { path: "properties/create", component: CreatePropertiesPage },
       { path: 'properties/edit/:id', component: EditPropertiesPage },
+      { path: "plans", component: PlanPage },
+      { path: "plans/create", component: CreatePlanPage },
+      { path: "plans/:id", component: DetailPlanPage },
+      { path: 'plans/edit/:id', component: EditPlanPage },
       { path: "**", component: NotFoundPage }
     ]
   },

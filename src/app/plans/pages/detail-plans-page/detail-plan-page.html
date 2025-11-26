@@ -1,0 +1,72 @@
+<div class="plan-detail">
+  <div class="plan-header">
+    <h1 class="plan-title">Crédito 1</h1>
+
+    <div class="currency-toggle">
+      <button
+        type="button"
+        [class.active]="currency === 'PEN'"
+        (click)="setCurrency('PEN')">
+        PEN
+      </button>
+      <button
+        type="button"
+        [class.active]="currency === 'USD'"
+        (click)="setCurrency('USD')">
+        USD
+      </button>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="installments-table">
+      <thead>
+      <tr>
+        <th>N° Cuotas</th>
+        <th>Fecha</th>
+        <th>P.G</th>
+        <th>Moneda</th>
+        <th>Cuota</th>
+        <th>Amortización</th>
+        <th>Interés</th>
+        <th>Saldo final</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let installment of installments">
+        <td>{{ installment.number }}</td>
+        <td>{{ getInstallmentDate(installment) | date:'dd/MM/yyyy' }}</td>
+        <td>{{ installment.gracePeriodType }}</td>
+
+        <td>{{ currency }}</td>
+
+        <td>
+          {{ installment.installmentAmount / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+        <td>
+          {{ installment.amortization / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+        <td>
+          {{ installment.interest / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+        <td>
+          {{ installment.finalBalance / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button
+    type="button"
+    class="cancel-btn"
+    (click)="onCancel()">
+    Volver
+  </button>
+
+  <div class="state-message" *ngIf="isLoading">Cargando cuotas...</div>
+  <div class="state-message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

@@ -4,4 +4,6 @@ export const environment = {
   authenticationEndpointPath: '/authentication',
   usersEndpointPath: '/users',
   clientsEndpointPath: '/clients',
+  propertiesEndpointPath: '/properties',
+  creditsEndpointPath: '/payment-plans',
 };

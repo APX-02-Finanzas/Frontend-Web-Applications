@@ -1,0 +1,20 @@
+<div class="plan-list">
+  <div class="plan-grid">
+    <app-plan-card
+      *ngFor="let plan of plans; let i = index"
+      [plan]="plan"
+      [client]="getClient(plan.clientId)"
+    [property]="getProperty(plan.propertyId)"
+      [index]="i + 1"
+      class="plan-grid-item">
+    </app-plan-card>
+
+
+
+
+  </div>
+
+  <div *ngIf="plans.length === 0" class="empty-state">
+    <p>No hay créditos registrados</p>
+  </div>
+</div>

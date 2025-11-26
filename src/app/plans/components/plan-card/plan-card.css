@@ -1,0 +1,137 @@
+.plan-card {
+  background-color: #CDE1EE;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+}
+
+.plan-title {
+  text-align: center;
+  margin: 0 0 16px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2C4452;
+  border-bottom: 2px solid #A8C6D9;
+  padding-bottom: 8px;
+}
+
+.plan-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 44px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.label {
+  font-weight: 500;
+  color: #2C4452;
+  font-size: 0.95rem;
+}
+
+.value {
+  font-weight: 400;
+  color: #4A6572;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.can-apply {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.cannot-apply {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.plan-footer {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.pill-van {
+  background: #32b553;
+}
+
+.pill-van.negative {
+  background: #e57373;
+}
+
+.pill-tir {
+  background: #4d5dd6;
+}
+.plan-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.btn-secondary,
+.btn-primary {
+  border-radius: 12px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  width: auto;
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #2c4452;
+  border: 1px solid #cfd5dd;
+}
+
+.btn-primary {
+  background: #4d90ba;
+  color: #ffffff;
+}
+
+@media (max-width: 760px) {
+  .plan-card {
+    padding: 16px;
+  }
+
+  .plan-title {
+    font-size: 1.3rem;
+  }
+}

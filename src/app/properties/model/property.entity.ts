@@ -28,7 +28,7 @@ export class Property {
     this.title = property.title || '';
     this.description = property.description || '';
     this.price = property.price || 0;
-    this.currency = property.currency || 'PEN';
+    this.currency = property.currency || "PEN";
     this.address = property.address || '';
     this.salesManId = property.salesManId || 0;
 
