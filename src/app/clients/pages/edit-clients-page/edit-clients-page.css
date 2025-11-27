@@ -1,80 +1,125 @@
 .edit-clients-page {
-  padding: 28px;
+  padding: 40px 48px;
   max-width: 900px;
   margin: 0 auto;
-  position: relative;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 .page-header h1 {
-  margin: 0 0 18px 0;
-  color: #2C4452;
-  font-size: 1.8rem;
-  text-align: left;
+  margin: 0 0 24px 0;
+  color: #1E2B32;
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .form-panel {
+  width: 100%;
+  max-width: 850px;
   background: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: 28px 32px;
+  border-radius: 20px;
+  border: 1px solid #d9dde3;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 18px;
+}
+
+.form-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.form-field {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .label {
   font-weight: 600;
   color: #2C4452;
+  font-size: 0.95rem;
 }
 
 .input {
   padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #cfcfcf;
-  font-size: 1rem;
+  border: 1px solid #cfd5dd;
+  font-size: 0.98rem;
+  background-color: #ffffff;
 }
 
-.create-btn {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  background-color: #4D90BA;
-  color: #ffffff;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  z-index: 120;
-  box-shadow: 0 6px 18px rgba(77,144,186,0.18);
+.input:focus {
+  outline: none;
+  border-color: #4D90BA;
+  box-shadow: 0 0 0 2px rgba(77, 144, 186, 0.15);
 }
-.create-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+
+.form-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cancel-btn {
-  position: fixed;
-  left: 24px;
-  bottom: 24px;
   background: transparent;
   border: none;
   color: #2C4452;
   font-weight: 600;
   cursor: pointer;
-  z-index: 120;
+  padding: 6px 0;
+}
+
+.create-btn {
+  background-color: #4D90BA;
+  color: #ffffff;
+  border: none;
+  padding: 10px 26px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(77, 144, 186, 0.18);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.create-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.create-btn:not(:disabled):hover {
+  background-color: #417ca0;
 }
 
 @media (max-width: 760px) {
-  .create-btn {
-    right: 12px;
-    bottom: 12px;
-    padding: 10px 14px;
+  .edit-clients-page {
+    padding: 24px 16px;
   }
-  .cancel-btn {
-    left: 12px;
-    bottom: 12px;
+
+  .form-panel {
+    padding: 20px 18px;
+    border-radius: 16px;
+  }
+
+  .form-row {
+    gap: 12px;
+  }
+
+  .form-actions {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }

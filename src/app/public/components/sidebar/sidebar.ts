@@ -44,7 +44,7 @@ export class Sidebar implements OnInit, OnDestroy {
       this.active = 'clientes';
     } else if (url.startsWith('/properties')) {
       this.active = 'inmobiliario';
-    } else if (url.startsWith('/creditos')) {
+    } else if (url.startsWith('/plans')) {
       this.active = 'creditos';
     } else {
       this.active = 'clientes';
@@ -105,7 +105,7 @@ export class Sidebar implements OnInit, OnDestroy {
     } else if (item === 'inmobiliario') {
       this.router.navigate(['/properties']);
     } else if (item === 'creditos') {
-      this.router.navigate(['/creditos']);
+      this.router.navigate(['/plans']);
     }
   }
 

@@ -15,7 +15,8 @@
 
     <app-property-list
       *ngIf="!loading && !error"
-      [properties]="properties">
+      [properties]="properties"
+      (deleted)="onChildDeleted($event)">
     </app-property-list>
   </div>
 

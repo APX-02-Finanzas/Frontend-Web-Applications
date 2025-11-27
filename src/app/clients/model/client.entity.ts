@@ -33,4 +33,6 @@ export class Client {
     this.hasPreviousStateHousing = client.hasPreviousStateHousing || false;
     this.canApplyForBono = client.canApplyForBono || false;
   }
+
+
 }

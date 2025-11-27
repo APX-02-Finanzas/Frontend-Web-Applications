@@ -1,0 +1,185 @@
+<div class="edit-plan-page">
+  <header class="page-header">
+    <h1>Editar Plan de Financiamiento</h1>
+  </header>
+
+  <section class="form-wrapper">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
+
+      <div *ngIf="loading">Cargando datos del plan...</div>
+      <div *ngIf="!loading && error" class="error">{{ error }}</div>
+
+      <ng-container *ngIf="!loading && !error">
+
+        <!-- DATOS GENERALES -->
+        <h2 class="section-title">Datos generales</h2>
+        <div class="form-row">
+
+          <div class="form-field">
+            <label class="label">% Cuota inicial</label>
+            <input class="input" type="number" formControlName="downPaymentPercentage" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Años del crédito</label>
+            <input class="input" type="number" formControlName="years" />
+          </div>
+
+          <div class="form-field">
+            <label class="label">Frecuencia de pago (días)</label>
+            <input class="input" type="number" formControlName="paymentFrequency" />
+          </div>
+
+          <div class="form-field">
+            <label class="label">Días por año</label>
+            <input class="input" type="number" formControlName="daysPerYear" />
+          </div>
+        </div>
+
+        <!-- COSTOS INICIALES -->
+        <h2 class="section-title">Costos iniciales</h2>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Costos notariales</label>
+            <input class="input" type="number" formControlName="notarialCosts" />
+          </div>
+          <div class="form-field">
+            <label class="label">Costos registrales</label>
+            <input class="input" type="number" formControlName="registryCosts" />
+          </div>
+          <div class="form-field">
+            <label class="label">Tasación</label>
+            <input class="input" type="number" formControlName="appraisal" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Comisión de estudio</label>
+            <input class="input" type="number" formControlName="studyCommission" />
+          </div>
+          <div class="form-field">
+            <label class="label">Comisión de activación</label>
+            <input class="input" type="number" formControlName="activationCommission" />
+          </div>
+        </div>
+
+        <!-- COSTOS PERIÓDICOS -->
+        <h2 class="section-title">Costos periódicos</h2>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Comisión periódica</label>
+            <input class="input" type="number" formControlName="periodicCommission" />
+          </div>
+          <div class="form-field">
+            <label class="label">Portes</label>
+            <input class="input" type="number" formControlName="postage" />
+          </div>
+          <div class="form-field">
+            <label class="label">Gastos de administración</label>
+            <input class="input" type="number" formControlName="administrationFees" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">% Seguro desgravamen</label>
+            <input class="input" type="number" formControlName="creditLifeInsurance" />
+          </div>
+          <div class="form-field">
+            <label class="label">% Seguro riesgo</label>
+            <input class="input" type="number" formControlName="riskInsurance" />
+          </div>
+        </div>
+
+        <!-- TASAS -->
+        <h2 class="section-title">Tasas</h2>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Tasa de descuento (%)</label>
+            <input class="input" type="number" formControlName="discountRate" />
+          </div>
+          <div class="form-field">
+            <label class="label">Tasa de interés anual (%)</label>
+            <input class="input" type="number" formControlName="annualInterestRate" />
+          </div>
+          <div class="form-field">
+            <label class="label">Tipo de tasa</label>
+            <select class="input" formControlName="interestRateType">
+              <option *ngFor="let t of interestRateTypes" [value]="t">{{ t }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Moneda</label>
+            <select class="input" formControlName="currency">
+              <option *ngFor="let c of currencyOptions" [value]="c">{{ c }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- RECONFIGURACIÓN DE TASA DE INTERÉS -->
+        <h2 class="section-title">Reconfiguración de tasa de interés (opcional)</h2>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Cuota a partir de la cual cambia la tasa (n°)</label>
+            <input class="input" type="number" formControlName="interestInstallmentNumber" />
+          </div>
+          <div class="form-field">
+            <label class="label">Nueva tasa anual (%)</label>
+            <input class="input" type="number" formControlName="newAnnualRate" />
+          </div>
+        </div>
+
+        <h2 class="section-title">Periodo de gracia</h2>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Cuota (n°)</label>
+            <input class="input" type="number" formControlName="graceInstallmentNumber" />
+          </div>
+          <div class="form-field">
+            <label class="label">Tipo</label>
+            <select class="input" formControlName="gracePeriodType">
+              <option *ngFor="let g of graceTypes" [value]="g">{{ g }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PREPAGO -->
+        <h2 class="section-title">Prepago</h2>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="label">Cuota (n°)</label>
+            <input class="input" type="number" formControlName="prepaymentInstallmentNumber" />
+          </div>
+          <div class="form-field">
+            <label class="label">Monto</label>
+            <input class="input" type="number" formControlName="prepaymentAmount" />
+          </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="onCancel()">
+            Volver
+          </button>
+
+          <button
+            type="submit"
+            class="edit-btn"
+            [disabled]="form.invalid || submitting">
+            Guardar cambios
+          </button>
+        </div>
+
+      </ng-container>
+    </form>
+  </section>
+</div>

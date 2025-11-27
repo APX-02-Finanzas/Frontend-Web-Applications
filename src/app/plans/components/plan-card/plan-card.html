@@ -1,0 +1,85 @@
+<div class="plan-card" *ngIf="plan as p">
+  <h3 class="plan-title">Crédito {{ index }}</h3>
+
+  <div class="plan-details">
+    <div class="detail-item">
+      <span class="label">Cliente:</span>
+      <span class="value">{{ client?.name }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Inmobiliario:</span>
+      <span class="value">{{ property?.title }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Tasa:</span>
+      <span class="value">
+        {{ p.discountRate | number:'1.0-2' }} %
+      </span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Porcentaje Cuota Inicial:</span>
+      <span class="value">
+        {{ p.downPaymentPercentage | number:'1.0-2' }} %
+      </span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Monto del Credito:</span>
+      <span class="value">
+        {{ p.loanAmount | number:'1.0-2' }}
+      </span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Aplica a Bono:</span>
+      <span
+        class="value"
+        [class.can-apply]="p.bonusApplied"
+        [class.cannot-apply]="!p.bonusApplied"
+      >
+        {{ p.bonusApplied ? 'Sí' : 'No' }}
+      </span>
+    </div>
+  </div>
+  <div class="plan-actions">
+    <button class="btn-secondary" (click)="onViewDetail()">
+      Ver detalle
+    </button>
+    <button class="btn-primary" (click)="onEdit()">
+      Editar
+    </button>
+    <button class="btn-danger" (click)="onDelete()">
+      Eliminar
+    </button>
+  </div>
+
+  <div class="plan-footer">
+    <div
+      class="pill pill-van"
+      *ngIf="p.npv !== null && p.npv !== undefined"
+      [class.positive]="p.npv > 0"
+      [class.negative]="p.npv < 0"
+    >
+      VAN:
+      <ng-container [ngSwitch]="property?.currency">
+        <span *ngSwitchCase="'PEN'">S/.</span>
+        <span *ngSwitchCase="'USD'">USD</span>
+        <span *ngSwitchCase="'EUR'">€</span>
+        <span *ngSwitchDefault>{{ property?.currency }}</span>
+      </ng-container>
+      {{ p.npv | number:'1.0-2' }}
+    </div>
+
+    <div
+      class="pill pill-tir"
+      *ngIf="p.irr !== null && p.irr !== undefined"
+    >
+      TIR: {{ p.irr | number:'1.1-1' }} %
+    </div>
+  </div>
+
+
+</div>

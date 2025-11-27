@@ -1,0 +1,28 @@
+<div class="plans-page">
+  <header class="page-header">
+    <h1>Créditos</h1>
+  </header>
+
+  <div class="page-content">
+    <div *ngIf="loading" class="loading-state">
+      <p>Cargando créditos...</p>
+    </div>
+
+    <div *ngIf="error && !loading" class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="loadData()">Reintentar</button>
+    </div>
+
+    <app-plan-list
+      *ngIf="!loading && !error"
+      [plans]="plans"
+      [clients]="clients"
+      [properties]="properties"
+      (deleted)="onDeletePlan($event)">
+    </app-plan-list>
+  </div>
+
+  <button class="create-btn" (click)="onCreate()">
+    Crear Crédito
+  </button>
+</div>

@@ -1,0 +1,207 @@
+<div class="create-plan-page">
+  <header class="page-header">
+    <h1>Crear Plan de Financiamiento</h1>
+  </header>
+
+  <section class="form-wrapper">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
+      <h2 class="section-title">Datos de la operación</h2>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Cliente *</label>
+          <select class="input" formControlName="clientId">
+            <option value="" disabled>Seleccione un cliente</option>
+            <option *ngFor="let c of clients" [value]="c.id">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+
+
+        <div class="form-field">
+          <label class="label">Inmobiliario / Propiedad *</label>
+          <select class="input" formControlName="propertyId">
+            <option value="" disabled>Seleccione una propiedad</option>
+            <option *ngFor="let p of properties" [value]="p.id">
+              {{ p.title }} - {{ p.address }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Porcentaje de cuota inicial (%) *</label>
+          <input class="input" type="number" formControlName="downPaymentPercentage" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Años del crédito *</label>
+          <input class="input" type="number" formControlName="years" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Frecuencia de pago (días) *</label>
+          <input class="input" type="number" formControlName="paymentFrequency" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Días por año *</label>
+          <input class="input" type="number" formControlName="daysPerYear" />
+        </div>
+      </div>
+
+      <!-- Costos iniciales -->
+      <h2 class="section-title">Costos iniciales</h2>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Costos notariales</label>
+          <input class="input" type="number" formControlName="notarialCosts" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Costos registrales</label>
+          <input class="input" type="number" formControlName="registryCosts" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Tasación</label>
+          <input class="input" type="number" formControlName="appraisal" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Comisión de estudio</label>
+          <input class="input" type="number" formControlName="studyCommission" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Comisión de activación</label>
+          <input class="input" type="number" formControlName="activationCommission" />
+        </div>
+      </div>
+
+      <!-- Costos periódicos -->
+      <h2 class="section-title">Costos periódicos</h2>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Comisión periódica</label>
+          <input class="input" type="number" formControlName="periodicCommission" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Portes</label>
+          <input class="input" type="number" formControlName="postage" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Gastos de administración</label>
+          <input class="input" type="number" formControlName="administrationFees" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">% Seguro desgravamen</label>
+          <input class="input" type="number" formControlName="creditLifeInsurance" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">% Seguro riesgo</label>
+          <input class="input" type="number" formControlName="riskInsurance" />
+        </div>
+      </div>
+
+      <!-- Tasas -->
+      <h2 class="section-title">Tasas</h2>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Tasa de descuento (%)</label>
+          <input class="input" type="number" formControlName="discountRate" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Tipo de tasa *</label>
+          <select class="input" formControlName="interestRateType">
+            <option *ngFor="let t of interestRateTypes" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label class="label">Tasa de interés anual (%) *</label>
+          <input class="input" type="number" formControlName="annualInterestRate" />
+        </div>
+      </div>
+
+      <!-- Bono -->
+      <h2 class="section-title">Bono del Buen Pagador / Subsidio</h2>
+      <div class="form-row">
+        <div class="form-field small checkbox-field">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="applyBono" />
+            Aplicar bono
+          </label>
+        </div>
+      </div>
+      <h2 class="section-title">Configuración avanzada</h2>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Periodo de gracia (cuota)</label>
+          <input class="input" type="number" formControlName="graceInstallment" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Tipo de periodo de gracia</label>
+          <select class="input" formControlName="gracePeriodType">
+            <option value="">Sin periodo de gracia</option>
+            <option value="T">Total</option>
+            <option value="P">Parcial</option>
+            <option value="S">Sin pago</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Prepago en cuota</label>
+          <input class="input" type="number" formControlName="prepaymentInstallment" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Monto de prepago</label>
+          <input class="input" type="number" formControlName="prepaymentAmount" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label class="label">Cambio de tasa desde cuota</label>
+          <input class="input" type="number" formControlName="rateChangeInstallment" />
+        </div>
+
+        <div class="form-field">
+          <label class="label">Nueva tasa anual (%)</label>
+          <input class="input" type="number" formControlName="rateChangeAnnual" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="cancel-btn"
+          (click)="onCancel()">
+          Volver
+        </button>
+
+        <button
+          type="submit"
+          class="create-btn"
+          [disabled]="form.invalid || submitting">
+          Crear plan de financiamiento
+        </button>
+      </div>
+    </form>
+  </section>
+</div>
