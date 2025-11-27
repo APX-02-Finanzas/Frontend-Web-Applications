@@ -25,4 +25,11 @@ export class PlansService extends BaseService<Plan> {
       catchError(this.handleError)
     );
   }
+
+  deletePlan(id: number) {
+    return this.http.delete(
+      `${this.resourcePath()}/${id}`,
+      this.httpOptions
+    );
+  }
 }

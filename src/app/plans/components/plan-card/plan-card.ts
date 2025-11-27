@@ -1,5 +1,5 @@
 // plan-card.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -20,6 +20,8 @@ export class PlanCard {
   @Input() property: Property | null = null;
   @Input() index?: number;
 
+  @Output() deleted = new EventEmitter<number>();
+
   constructor(private router: Router) {}
 
   onEdit(): void {
@@ -34,4 +36,10 @@ export class PlanCard {
     if (!this.plan || !this.plan.id) return;
     this.router.navigate(['/plans', this.plan.id]);
   }
+
+  onDelete(): void {
+    if (!this.plan || !this.plan.id) return;
+    this.deleted.emit(this.plan.id);
+  }
+
 }

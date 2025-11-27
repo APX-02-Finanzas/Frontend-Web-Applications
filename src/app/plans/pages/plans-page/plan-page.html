@@ -17,7 +17,8 @@
       *ngIf="!loading && !error"
       [plans]="plans"
       [clients]="clients"
-      [properties]="properties">
+      [properties]="properties"
+      (deleted)="onDeletePlan($event)">
     </app-plan-list>
   </div>
 

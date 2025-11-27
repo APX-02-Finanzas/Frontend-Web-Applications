@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Property} from '../../model/property.entity';
 import {PropertyCard} from '../property-card/property-card';
@@ -16,4 +16,9 @@ import {PropertyCard} from '../property-card/property-card';
 })
 export class PropertyList {
   @Input() properties: Property[] = [];
+  @Output() deleted = new EventEmitter<number>();
+
+  onDeleted(id: number) {
+    this.deleted.emit(id);
+  }
 }

@@ -33,7 +33,7 @@ export class CreatePropertiesPage {
       address: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
       currency: ['PEN', Validators.required],
-      areaM2: [0, [Validators.required, Validators.min(0)]],
+      m2: [0, [Validators.required, Validators.min(0)]],
       rooms: [1, [Validators.required, Validators.min(1)]]
     });
   }
@@ -60,7 +60,9 @@ export class CreatePropertiesPage {
       address: (this.form.get('address')?.value ?? '').toString(),
       price: Number(this.form.get('price')?.value) || 0,
       currency: (this.form.get('currency')?.value ?? 'PEN').toString(),
-      salesManId: salesManId
+      salesManId: salesManId,
+      m2: Number(this.form.get('m2')?.value) || 0,
+      rooms: Number(this.form.get('rooms')?.value) || 0
 
     };
 

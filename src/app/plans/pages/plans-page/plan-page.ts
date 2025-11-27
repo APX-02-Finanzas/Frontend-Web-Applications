@@ -72,4 +72,19 @@ export class PlanPage implements OnInit {
   onCreate(): void {
     this.router.navigate(['/plans/create']);
   }
+
+  onDeletePlan(id: number): void {
+
+
+    this.plansService.deletePlan(id).subscribe({
+      next: () => {
+        this.plans = this.plans.filter(p => p.id !== id);
+      },
+      error: (err) => {
+        console.error('Error eliminando plan', err);
+        alert('No se pudo eliminar el crédito.');
+      }
+    });
+  }
+
 }

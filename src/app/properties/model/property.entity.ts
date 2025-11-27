@@ -8,7 +8,7 @@ export class Property {
   salesManId: number;
 
   //temp
-  areaM2: number;
+  m2: number;
   rooms: number;
 
   constructor(property: {
@@ -21,7 +21,7 @@ export class Property {
     salesManId?: number;
 
     //temp
-    areaM2?: number;
+    m2?: number;
     rooms?: number;
   }) {
     this.id = property.id || 0;
@@ -33,7 +33,7 @@ export class Property {
     this.salesManId = property.salesManId || 0;
 
     //temp
-    this.areaM2 = property.areaM2 || 0;
+    this.m2 = property.m2 || 0;
     this.rooms = property.rooms || 0;
   }
 }

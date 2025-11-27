@@ -126,6 +126,17 @@
   color: #ffffff;
 }
 
+.btn-danger {
+  background: #e74c3c;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
 @media (max-width: 760px) {
   .plan-card {
     padding: 16px;

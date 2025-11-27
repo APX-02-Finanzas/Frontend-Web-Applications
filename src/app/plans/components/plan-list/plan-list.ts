@@ -1,5 +1,5 @@
 // plan-list.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Plan } from '../../model/plan.entity';
@@ -22,6 +22,8 @@ export class PlanList {
   @Input() clients: Client[] = [];
   @Input() properties: Property[] = [];
 
+  @Output() deleted = new EventEmitter<number>();
+
   getClient(clientId: number | undefined): Client | null {
     if (!clientId) return null;
     return this.clients.find(c => c.id === clientId) ?? null;
@@ -30,5 +32,9 @@ export class PlanList {
   getProperty(propertyId: number | undefined): Property | null {
     if (!propertyId) return null;
     return this.properties.find(p => p.id === propertyId) ?? null;
+  }
+
+  onChildDeleted(id: number) {
+    this.deleted.emit(id);
   }
 }

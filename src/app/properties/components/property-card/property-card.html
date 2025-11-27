@@ -9,24 +9,39 @@
         <span class="label">Dirección:</span>
         <span class="value">{{ property.address }}</span>
       </div>
+      <div class="property-row">
+        <span class="label">Area m²:</span>
+        <span class="value">{{ property.m2 || '-' }}</span>
+      </div>
+      <div class="property-row">
+        <span class="label">Habitaciones:</span>
+        <span class="value">{{ property.rooms || '-' }}</span>
+      </div>
 
     </div>
     <div class="property-column">
       <div class="property-row">
         <span class="label">Precio de venta:</span>
         <span class="value">
-          <ng-container [ngSwitch]="property.currency">
-            <span *ngSwitchCase="'PEN'">S/.</span>
-            <span *ngSwitchCase="'USD'">USD</span>
-            <span *ngSwitchCase="'EUR'">€</span>
-            <span *ngSwitchDefault>{{ property.currency }}</span>
-          </ng-container>
+        <ng-container [ngSwitch]="property.currency">
+           <span *ngSwitchCase="'PEN'">S/.</span>
+           <span *ngSwitchCase="'USD'">$</span>
+           <span *ngSwitchCase="'EUR'">€</span>
+           <span *ngSwitchDefault>{{ property.currency }}</span>
+    </ng-container>
           {{ property.price | number:'1.0-2' }}
-        </span>
+  </span>
       </div>
       <div class="property-row">
-        <span class="label">Tipo de cambio:</span>
-        <span class="value">{{ property.currency }}</span>
+        <span class="label">Moneda:</span>
+        <span class="value">
+       <ng-container [ngSwitch]="property.currency">
+         <span *ngSwitchCase="'PEN'">PEN</span>
+         <span *ngSwitchCase="'USD'">USD</span>
+         <span *ngSwitchCase="'EUR'">EUR</span>
+        <span *ngSwitchDefault>{{ property.currency }}</span>
+    </ng-container>
+  </span>
       </div>
     </div>
   </div>
@@ -35,5 +50,9 @@
     <button class="edit-btn" (click)="onEdit()">
       Editar inmobiliario
     </button>
+    <button class="delete-btn" (click)="onDelete()">
+      Eliminar inmobiliario
+    </button>
+
   </div>
 </div>

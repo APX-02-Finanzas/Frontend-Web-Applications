@@ -3,6 +3,7 @@
     <app-property-card
       *ngFor="let property of properties"
       [property]="property"
+      (deleted)="onDeleted($event)"
       class="property-grid-item">
     </app-property-card>
   </div>

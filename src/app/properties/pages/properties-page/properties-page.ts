@@ -62,4 +62,10 @@ export class PropertiesPage implements OnInit {
   onCreate(): void {
     this.router.navigate(['/properties/create']);
   }
+
+
+  onChildDeleted(id: number) {
+    this.properties = this.properties.filter(p => p.id !== id);
+  }
+
 }

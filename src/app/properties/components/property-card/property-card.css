@@ -71,6 +71,21 @@
   filter: brightness(0.95);
 }
 
+.delete-btn {
+  background-color: #cc4b4b;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #b33b3b;
+}
+
 @media (max-width: 768px) {
   .property-body {
     flex-direction: column;

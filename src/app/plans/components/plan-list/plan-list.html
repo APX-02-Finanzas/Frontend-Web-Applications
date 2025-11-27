@@ -6,7 +6,7 @@
       [client]="getClient(plan.clientId)"
     [property]="getProperty(plan.propertyId)"
       [index]="i + 1"
-      class="plan-grid-item">
+      (deleted)="onChildDeleted($event)">
     </app-plan-card>
 
 
