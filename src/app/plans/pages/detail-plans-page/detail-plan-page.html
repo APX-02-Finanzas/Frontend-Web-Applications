@@ -1,7 +1,9 @@
 <div class="plan-detail">
   <div class="plan-header">
     <h1 class="plan-title">Crédito 1</h1>
+  </div>
 
+  <div class="currency-wrapper">
     <div class="currency-toggle">
       <button
         type="button"
@@ -15,7 +17,34 @@
         (click)="setCurrency('USD')">
         USD
       </button>
+      <button
+        type="button"
+        [class.active]="currency === 'EUR'"
+        (click)="setCurrency('EUR')">
+        EUR
+      </button>
     </div>
+  </div>
+
+  <div class="indicators-box" *ngIf="plan">
+    <table class="indicators-table">
+      <tr>
+        <th>Tasa de descuento</th>
+        <td>{{ plan.discountRate | number:'1.4-4' }}%</td>
+      </tr>
+      <tr>
+        <th>TIR de la operación</th>
+        <td>{{ plan.irr | number:'1.4-4' }}%</td>
+      </tr>
+      <tr>
+        <th>TCEA de la operación</th>
+        <td>{{ plan.effectiveAnnualCostRate | number:'1.4-4' }}%</td>
+      </tr>
+      <tr>
+        <th>VAN operación</th>
+        <td>{{ plan.npv / exchangeRate | currency:currency:'symbol':'1.2-2' }}</td>
+      </tr>
+    </table>
   </div>
 
   <div class="table-container">
@@ -25,7 +54,7 @@
         <th>N°</th>
         <th>Fecha</th>
         <th>TEA</th>
-        <th>i′ TEP/TEM</th>
+        <th>i′</th>
         <th>IA</th>
         <th>IP</th>
         <th>P.G</th>
@@ -60,74 +89,62 @@
         <td>{{ i.gracePeriodType }}</td>
 
         <td>
-          {{ i.initialBalance / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.initialBalance / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.indexedInitialBalance / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.indexedInitialBalance / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.interest / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.interest / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.installmentAmount / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.installmentAmount / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.amortization / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.amortization / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.prepayment / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.prepayment / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.creditLifeInsurance / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.creditLifeInsurance / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.riskInsurance / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.riskInsurance / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.commission / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.commission / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.postage / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.postage / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.adminFees / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.adminFees / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.finalBalance / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.finalBalance / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
         <td>
-          {{ i.cashFlow / exchangeRate
-          | currency:currency:'symbol-narrow':'1.2-2' }}
+          {{ i.cashFlow / exchangeRate | currency:currency:'symbol':'1.2-2' }}
         </td>
 
       </tr>
       </tbody>
     </table>
   </div>
+
   <button
     type="button"
     class="cancel-btn"
