@@ -22,40 +22,108 @@
     <table class="installments-table">
       <thead>
       <tr>
-        <th>N° Cuotas</th>
+        <th>N°</th>
         <th>Fecha</th>
+        <th>TEA</th>
+        <th>i′ TEP/TEM</th>
+        <th>IA</th>
+        <th>IP</th>
         <th>P.G</th>
-        <th>Moneda</th>
-        <th>Cuota</th>
-        <th>Amortización</th>
+        <th>Saldo Inicial</th>
+        <th>Saldo Inicial Indexado</th>
         <th>Interés</th>
-        <th>Saldo final</th>
+        <th>Cuota (inc Seg. Des)</th>
+        <th>Amort.</th>
+        <th>Prepago</th>
+        <th>Seg. Desgrav.</th>
+        <th>Seg. Riesgo</th>
+        <th>Comisión</th>
+        <th>Portes</th>
+        <th>Gastos Adm.</th>
+        <th>Saldo Final</th>
+        <th>Flujo</th>
       </tr>
       </thead>
+
       <tbody>
-      <tr *ngFor="let installment of installments">
-        <td>{{ installment.number }}</td>
-        <td>{{ getInstallmentDate(installment) | date:'dd/MM/yyyy' }}</td>
-        <td>{{ installment.gracePeriodType }}</td>
+      <tr *ngFor="let i of installments">
 
-        <td>{{ currency }}</td>
+        <td>{{ i.number }}</td>
+
+        <td>{{ getInstallmentDate(i) | date:'dd/MM/yyyy' }}</td>
+
+        <td>{{ i.annualEffectiveRate | number:'1.2-2' }}%</td>
+        <td>{{ i.periodEffectiveRate | number:'1.2-2' }}%</td>
+        <td>{{ i.annualInflation | number:'1.2-2' }}%</td>
+        <td>{{ i.periodInflation | number:'1.2-2' }}%</td>
+
+        <td>{{ i.gracePeriodType }}</td>
 
         <td>
-          {{ installment.installmentAmount / exchangeRate
+          {{ i.initialBalance / exchangeRate
           | currency:currency:'symbol-narrow':'1.2-2' }}
         </td>
+
         <td>
-          {{ installment.amortization / exchangeRate
+          {{ i.indexedInitialBalance / exchangeRate
           | currency:currency:'symbol-narrow':'1.2-2' }}
         </td>
+
         <td>
-          {{ installment.interest / exchangeRate
+          {{ i.interest / exchangeRate
           | currency:currency:'symbol-narrow':'1.2-2' }}
         </td>
+
         <td>
-          {{ installment.finalBalance / exchangeRate
+          {{ i.installmentAmount / exchangeRate
           | currency:currency:'symbol-narrow':'1.2-2' }}
         </td>
+
+        <td>
+          {{ i.amortization / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.prepayment / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.creditLifeInsurance / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.riskInsurance / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.commission / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.postage / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.adminFees / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.finalBalance / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
+        <td>
+          {{ i.cashFlow / exchangeRate
+          | currency:currency:'symbol-narrow':'1.2-2' }}
+        </td>
+
       </tr>
       </tbody>
     </table>

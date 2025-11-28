@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Installment} from '../../model/installment.entity';
+import {Plan} from '../../model/plan.entity';
 import {PlansService} from '../../services/plans.service';
 
 @Component({
@@ -12,6 +13,9 @@ import {PlansService} from '../../services/plans.service';
   styleUrl: './detail-plan-page.css',
 })
 export class DetailPlanPage implements OnInit {
+
+  plan!: Plan;
+  paymentFrequency!: number;
 
   paymentPlanId!: number;
   installments: Installment[] = [];
@@ -40,7 +44,16 @@ export class DetailPlanPage implements OnInit {
       return;
     }
 
-    this.loadInstallments();
+    this.plansService.getById(this.paymentPlanId).subscribe({
+      next: (plan) => {
+        this.plan = plan;
+        this.paymentFrequency = plan.paymentFrequency;
+        this.loadInstallments();
+      },
+      error: () => {
+        this.errorMessage = 'Error al cargar datos del plan.';
+      }
+    });
   }
 
   loadInstallments(): void {
@@ -61,7 +74,15 @@ export class DetailPlanPage implements OnInit {
 
   getInstallmentDate(installment: Installment): Date {
     const d = new Date(this.startDate);
-    d.setMonth(d.getMonth() + installment.number);
+
+    // Frecuencia real según el plan
+    const freq = this.paymentFrequency;
+
+    // Sumar la cantidad de días según la frecuencia
+    const daysToAdd = installment.number * freq;
+
+    d.setDate(d.getDate() + daysToAdd);
+
     return d;
   }
   onCancel(): void {
