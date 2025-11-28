@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Installment} from '../../model/installment.entity';
+import {Plan} from '../../model/plan.entity';
 import {PlansService} from '../../services/plans.service';
 
 @Component({
@@ -13,12 +14,15 @@ import {PlansService} from '../../services/plans.service';
 })
 export class DetailPlanPage implements OnInit {
 
+  plan!: Plan;
+  paymentFrequency!: number;
+
   paymentPlanId!: number;
   installments: Installment[] = [];
 
   isLoading = false;
   errorMessage = '';
-  currency: 'PEN' | 'USD' = 'PEN';
+  currency: 'PEN' | 'USD'| 'EUR' = 'PEN';
 
   startDate: Date = new Date(2025, 0, 1);
 
@@ -40,7 +44,16 @@ export class DetailPlanPage implements OnInit {
       return;
     }
 
-    this.loadInstallments();
+    this.plansService.getById(this.paymentPlanId).subscribe({
+      next: (plan) => {
+        this.plan = plan;
+        this.paymentFrequency = plan.paymentFrequency;
+        this.loadInstallments();
+      },
+      error: () => {
+        this.errorMessage = 'Error al cargar datos del plan.';
+      }
+    });
   }
 
   loadInstallments(): void {
@@ -61,18 +74,30 @@ export class DetailPlanPage implements OnInit {
 
   getInstallmentDate(installment: Installment): Date {
     const d = new Date(this.startDate);
-    d.setMonth(d.getMonth() + installment.number);
+
+    // Frecuencia real según el plan
+    const freq = this.paymentFrequency;
+
+    // Sumar la cantidad de días según la frecuencia
+    const daysToAdd = installment.number * freq;
+
+    d.setDate(d.getDate() + daysToAdd);
+
     return d;
   }
   onCancel(): void {
     this.router.navigate(['/plans']);
   }
 
-  setCurrency(mode: 'PEN' | 'USD'): void {
+  setCurrency(mode: 'PEN' | 'USD'| 'EUR'): void {
     this.currency = mode;
   }
 
   get exchangeRate(): number {
-    return this.currency === 'PEN' ? 1 : 3.5;
+    if (this.currency === 'PEN') return 1;
+    if (this.currency === 'USD') return 3.5;
+    if (this.currency === 'EUR') return 4.0;
+
+    return 1;
   }
 }

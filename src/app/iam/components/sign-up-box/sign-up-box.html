@@ -84,6 +84,14 @@
     </div>
   </div>
 
+  <div style="margin-top:14px; display:flex; justify-content:center;">
+    <div id="recaptcha-container"></div>
+  </div>
+
+  <div *ngIf="captchaError" class="inline-error" style="text-align:center; margin-top:8px;">
+    Por favor completa el captcha correctamente.
+  </div>
+
   <button class="btn" type="submit" [disabled]="form.invalid || submitting">
     Crear cuenta
   </button>

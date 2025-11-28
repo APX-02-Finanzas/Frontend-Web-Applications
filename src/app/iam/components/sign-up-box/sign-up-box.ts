@@ -1,7 +1,9 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { CaptchaService } from '../../services/captcha.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -10,14 +12,24 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './sign-up-box.html',
   styleUrls: ['./sign-up-box.css'],
 })
-export class SignUpBox {
+export class SignUpBox implements OnInit, OnDestroy, AfterViewInit {
   @Output() switchTo = new EventEmitter<'sign-up' | 'sign-in'>();
   form: FormGroup;
   submitting = false;
   passwordVisible = false;
   confirmPasswordVisible = false;
+  recaptchaToken: string = '';
+  captchaError = false;
+  captchaLoaded = false;
+  captchaLoading = false;
+  private captchaSub?: Subscription;
+  private isComponentActive = true;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private captchaService: CaptchaService
+  ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -28,11 +40,75 @@ export class SignUpBox {
     }, { validators: this.passwordsMatchValidator });
   }
 
-  togglePasswordVisibility() {
+  ngOnInit(): void {
+    this.captchaSub = this.captchaService.tokenChange.subscribe(token => {
+      this.recaptchaToken = token;
+      if (token) {
+        this.captchaError = false;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loadCaptcha();
+    }, 100);
+  }
+
+  ngOnDestroy(): void {
+    this.isComponentActive = false;
+    this.captchaSub?.unsubscribe();
+  }
+
+  private loadCaptcha(): void {
+    if (this.captchaLoading || this.captchaLoaded) {
+      return;
+    }
+
+    this.captchaLoading = true;
+    this.captchaError = false;
+    this.captchaLoaded = false;
+
+    this.captchaService.getSiteKey().subscribe({
+      next: cfg => {
+        if (!cfg?.siteKey) {
+          throw new Error('No se obtuvo siteKey');
+        }
+
+        this.captchaService.loadScriptV2()
+          .then(() => this.captchaService.render('recaptcha-container', cfg.siteKey))
+          .then(() => {
+            this.captchaLoaded = true;
+            this.captchaLoading = false;
+          })
+          .catch(() => {
+            this.captchaError = true;
+            this.captchaLoading = false;
+            this.captchaLoaded = false;
+          });
+      },
+      error: () => {
+        this.captchaError = true;
+        this.captchaLoading = false;
+        this.captchaLoaded = false;
+      }
+    });
+  }
+
+  reloadCaptcha(): void {
+    this.captchaService.reload().then(() => {
+      this.captchaLoaded = false;
+      this.captchaError = false;
+      this.recaptchaToken = '';
+      this.loadCaptcha();
+    });
+  }
+
+  togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
   }
 
-  toggleConfirmPasswordVisibility() {
+  toggleConfirmPasswordVisibility(): void {
     this.confirmPasswordVisible = !this.confirmPasswordVisible;
   }
 
@@ -50,45 +126,66 @@ export class SignUpBox {
   };
 
   onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+    this.form.markAllAsTouched();
+
+    if (this.form.invalid || !this.recaptchaToken) {
+      if (!this.recaptchaToken) {
+        this.captchaError = true;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       return;
     }
 
     this.submitting = true;
+    this.captchaError = false;
 
-    const username = (this.usernameCtrl?.value ?? '').toString();
-    const password = (this.passwordCtrl?.value ?? '').toString();
-    const name = (this.nameCtrl?.value ?? '').toString();
-    const surname = (this.surnameCtrl?.value ?? '').toString();
-    const email = (this.emailCtrl?.value ?? '').toString();
+    const { username, password, name, surname, email } = this.form.value;
 
-    this.authService.signup(username, password, name, surname, email, 'ROLE_SALESMAN')
-      .subscribe({
+    this.authService.signup(
+      username.trim(),
+      password,
+      name.trim(),
+      surname.trim(),
+      email.trim(),
+      'ROLE_SALESMAN',
+      this.recaptchaToken
+    ).subscribe({
         next: (response) => {
           this.submitting = false;
-          console.log('Respuesta del servidor:', response);
-          alert(`Cuenta creada correctamente para: ${response.username}`);
+          const successUsername = response?.username || username;
+          alert(`Cuenta creada correctamente para: ${successUsername}`);
           this.form.reset();
+          if (this.isComponentActive) {
+            this.captchaService.reset();
+          }
           this.switchTo.emit('sign-in');
         },
         error: err => {
           this.submitting = false;
-          console.error('Error completo:', err);
-          let errorMessage = 'Error en el registro';
+
           if (err.status === 401) {
-            errorMessage = 'Error de autenticación - revisa los datos';
+            this.captchaError = true;
+            this.reloadCaptcha();
           } else if (err.status === 400) {
-            errorMessage = 'Datos inválidos - ' + (err.error?.message || 'verifica la información');
+            const errorMessage = 'Datos inválidos - ' + (err.error?.message || 'verifica la información');
+            alert('Error: ' + errorMessage);
           } else if (err.status === 409) {
-            errorMessage = 'El usuario ya existe';
+            alert('Error: El usuario ya existe');
+          } else if (err.status === 0) {
+            alert('Error: No se puede conectar al servidor');
+          } else {
+            alert('Error: Error en el registro');
           }
-          alert('Error: ' + errorMessage);
+
+          if (this.isComponentActive) {
+            this.captchaService.reset();
+            this.recaptchaToken = '';
+          }
         }
       });
   }
 
-  onSwitchToSignIn(event: Event) {
+  onSwitchToSignIn(event: Event): void {
     event.preventDefault();
     this.switchTo.emit('sign-in');
   }

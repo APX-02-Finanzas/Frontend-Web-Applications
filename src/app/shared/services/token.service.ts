@@ -4,37 +4,27 @@ import { EventEmitter, Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TokenService {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean = false; // ← Cambia a inicialización directa
   tokenChanged: EventEmitter<string>;
 
   constructor() {
     this.tokenChanged = new EventEmitter();
-    this.isLoggedIn = this.checkTokenValidity();
+    this.isLoggedIn = localStorage.getItem('auth_token') !== null; // ← Como el proyecto de ejemplo
   }
 
   public setToken(token: string): void {
-    if (token && token !== 'null' && token !== 'undefined') {
-      localStorage.setItem('auth_token', token);
-      this.isLoggedIn = true;
-      this.tokenChanged.emit(token);
-    } else {
-    }
+    localStorage.setItem('auth_token', token);
+    this.isLoggedIn = true;
+    this.tokenChanged.emit(token); // ← Emite el token, no undefined
   }
 
   public resetToken(): void {
     localStorage.removeItem('auth_token');
     this.isLoggedIn = false;
-    this.tokenChanged.emit('');
+    this.tokenChanged.emit(undefined);
   }
 
   public getToken(): string {
-    const token = localStorage.getItem('auth_token') || '';
-    return token;
-  }
-
-  private checkTokenValidity(): boolean {
-    const token = this.getToken();
-    const isValid = !!(token && token !== 'null' && token !== 'undefined' && token !== '');
-    return isValid;
+    return localStorage.getItem('auth_token')?.toString() || 'null';
   }
 }

@@ -22,6 +22,7 @@ export class CreatePropertiesPage {
   currencies = ['PEN', 'USD', 'EUR'];
   roomsOptions = [1, 2, 3, 4, 5];
 
+
   constructor(
     private fb: FormBuilder,
     private propertiesService: PropertiesService,
@@ -38,11 +39,18 @@ export class CreatePropertiesPage {
     });
   }
 
+  exchangeRates: Record<string, number> = {
+    USD: 3.5,
+    EUR: 4.0,
+    PEN: 1
+  };
+
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+
 
     this.submitting = true;
 
@@ -54,16 +62,28 @@ export class CreatePropertiesPage {
       return;
     }
 
-    const payload = {
-      title: (this.form.get('title')?.value ?? '').toString(),
-      description: '',
-      address: (this.form.get('address')?.value ?? '').toString(),
-      price: Number(this.form.get('price')?.value) || 0,
-      currency: (this.form.get('currency')?.value ?? 'PEN').toString(),
-      salesManId: salesManId,
-      m2: Number(this.form.get('m2')?.value) || 0,
-      rooms: Number(this.form.get('rooms')?.value) || 0
+    const currencyRaw = this.form.get('currency')?.value;
+    const currency = (currencyRaw || 'PEN').toUpperCase();
 
+    const originalPrice = Number(this.form.get('price')?.value) || 0;
+
+    const rate = this.exchangeRates[currency] ?? 1;
+    const priceInPen = originalPrice * rate;
+
+    const payload = {
+      title: this.form.get('title')?.value,
+      description: '',
+      address: this.form.get('address')?.value,
+
+      price: priceInPen,
+      currency: 'PEN',
+
+      originalCurrency: currency,
+      originalPrice: originalPrice,
+
+      salesManId,
+      m2: this.form.get('m2')?.value,
+      rooms: this.form.get('rooms')?.value,
     };
 
     this.propertiesService.create(payload as any).subscribe({
