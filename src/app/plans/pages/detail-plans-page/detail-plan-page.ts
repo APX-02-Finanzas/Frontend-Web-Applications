@@ -22,7 +22,7 @@ export class DetailPlanPage implements OnInit {
 
   isLoading = false;
   errorMessage = '';
-  currency: 'PEN' | 'USD' = 'PEN';
+  currency: 'PEN' | 'USD'| 'EUR' = 'PEN';
 
   startDate: Date = new Date(2025, 0, 1);
 
@@ -89,11 +89,15 @@ export class DetailPlanPage implements OnInit {
     this.router.navigate(['/plans']);
   }
 
-  setCurrency(mode: 'PEN' | 'USD'): void {
+  setCurrency(mode: 'PEN' | 'USD'| 'EUR'): void {
     this.currency = mode;
   }
 
   get exchangeRate(): number {
-    return this.currency === 'PEN' ? 1 : 3.5;
+    if (this.currency === 'PEN') return 1;
+    if (this.currency === 'USD') return 3.5;
+    if (this.currency === 'EUR') return 4.0;
+
+    return 1;
   }
 }
