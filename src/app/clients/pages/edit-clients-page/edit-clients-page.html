@@ -15,15 +15,20 @@
   <section *ngIf="!loading && !error" class="form-wrapper">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-panel">
 
-      <div class="form-row">
+      <div class="form-row three">
         <div class="form-field">
           <label class="label">Nombre *</label>
           <input class="input" type="text" formControlName="name" />
         </div>
 
         <div class="form-field">
+          <label class="label">Apellido *</label>
+          <input class="input" type="text" formControlName="surname" />
+        </div>
+
+        <div class="form-field small">
           <label class="label">DNI *</label>
-          <input class="input" type="text" formControlName="dni" />
+          <input class="input" type="text" formControlName="dni" maxlength="8" />
         </div>
       </div>
 
@@ -39,27 +44,31 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="form-row three">
         <div class="form-field">
+          <label class="label">Estado civil *</label>
+          <select class="input" formControlName="civilState">
+            <option *ngFor="let option of civilStateOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-field small">
           <label class="label">Ingreso mensual *</label>
           <input class="input" type="number" formControlName="monthlyIncome" />
         </div>
 
-        <div class="form-field">
+        <div class="form-field small">
           <label class="label">Gasto mensual *</label>
           <input class="input" type="number" formControlName="monthlyExpenses" />
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="cancel-btn" (click)="onCancel()">
-          Volver
-        </button>
+        <button type="button" class="cancel-btn" (click)="onCancel()">Volver</button>
 
-        <button
-          type="submit"
-          class="create-btn"
-          [disabled]="form.invalid || submitting">
+        <button type="submit" class="create-btn" [disabled]="form.invalid || submitting">
           Editar Cliente
         </button>
       </div>

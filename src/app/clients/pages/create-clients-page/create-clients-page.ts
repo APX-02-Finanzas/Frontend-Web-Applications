@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { Router } from '@angular/router';
 import { ClientsService } from '../../services/clients.service';
 import { AuthService } from '../../../iam/services/auth.service';
+import { CivilState } from '../../model/client.entity';
 
 @Component({
   standalone: true,
@@ -16,6 +17,13 @@ export class CreateClientsPage {
   form: FormGroup;
   submitting = false;
 
+  civilStateOptions: { value: string; label: string }[] = [
+    { value: 'SINGLE', label: CivilState.SINGLE },
+    { value: 'MARRIED', label: CivilState.MARRIED },
+    { value: 'DIVORCED', label: CivilState.DIVORCED },
+    { value: 'WIDOWED', label: CivilState.WIDOWED }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private clientsService: ClientsService,
@@ -24,9 +32,11 @@ export class CreateClientsPage {
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
+      surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       dni: ['', Validators.required],
+      civilState: ['SINGLE', Validators.required],
       monthlyIncome: [0, [Validators.required, Validators.min(0)]],
       monthlyExpenses: [0, [Validators.required, Validators.min(0)]],
     });
@@ -44,13 +54,17 @@ export class CreateClientsPage {
 
     const payload = {
       name: (this.form.get('name')?.value ?? '').toString(),
+      surname: (this.form.get('surname')?.value ?? '').toString(),
       email: (this.form.get('email')?.value ?? '').toString(),
       phone: (this.form.get('phone')?.value ?? '').toString(),
       dni: (this.form.get('dni')?.value ?? '').toString(),
       salesManId: salesManId,
+      civilState: this.form.get('civilState')?.value,
       monthlyIncome: Number(this.form.get('monthlyIncome')?.value) || 0,
       monthlyExpenses: Number(this.form.get('monthlyExpenses')?.value) || 0,
     };
+
+    console.log('📤 Payload enviado:', payload);
 
     this.clientsService.create(payload as any).subscribe({
       next: () => {

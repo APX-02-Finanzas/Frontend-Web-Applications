@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Client } from '../../model/client.entity';
 import { Router } from '@angular/router';
 import { ClientsService } from '../../services/clients.service';
+import { CivilState } from '../../model/client.entity';
 
 @Component({
   standalone: true,
@@ -31,5 +32,19 @@ export class ClientCard {
       },
       error: () => alert('Error al eliminar')
     });
+  }
+
+  getCivilStateLabel(): string {
+    const cs = this.client?.civilState;
+    if (!cs) return '';
+
+    const enumValues = Object.values(CivilState) as string[];
+    if (enumValues.includes(cs as string)) {
+      return cs as string;
+    }
+
+    const key = (cs as string).toUpperCase();
+    const mapped = (CivilState as any)[key];
+    return mapped ?? (cs as string);
   }
 }

@@ -36,8 +36,9 @@
 
 .detail-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
   padding: 4px 0;
 }
 
@@ -51,7 +52,6 @@
   font-weight: 400;
   color: #4A6572;
   font-size: 0.9rem;
-  text-align: right;
 }
 
 .can-apply {
