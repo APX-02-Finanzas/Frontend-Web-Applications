@@ -8,8 +8,18 @@
     </div>
 
     <div class="detail-item">
+      <span class="label">Dni del Cliente:</span>
+      <span class="value">{{ client?.dni }}</span>
+    </div>
+
+    <div class="detail-item">
       <span class="label">Inmobiliario:</span>
       <span class="value">{{ property?.title }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label">Dirección del inmobiliario:</span>
+      <span class="value">{{ property?.address }}</span>
     </div>
 
     <div class="detail-item">
@@ -18,6 +28,7 @@
         {{ p.discountRate | number:'1.0-2' }} %
       </span>
     </div>
+
 
     <div class="detail-item">
       <span class="label">Porcentaje Cuota Inicial:</span>
@@ -33,16 +44,6 @@
       </span>
     </div>
 
-    <div class="detail-item">
-      <span class="label">Aplica a Bono:</span>
-      <span
-        class="value"
-        [class.can-apply]="p.bonusApplied"
-        [class.cannot-apply]="!p.bonusApplied"
-      >
-        {{ p.bonusApplied ? 'Sí' : 'No' }}
-      </span>
-    </div>
   </div>
   <div class="plan-actions">
     <button class="btn-secondary" (click)="onViewDetail()">
@@ -77,8 +78,16 @@
       class="pill pill-tir"
       *ngIf="p.irr !== null && p.irr !== undefined"
     >
-      TIR: {{ p.irr | number:'1.1-1' }} %
+      TIR: {{ p.irr*100 | number:'1.1-1' }} %
     </div>
+
+    <div
+      class="pill pill-tir"
+      *ngIf="p.periodicDiscountRate !== null && p.periodicDiscountRate !== undefined"
+    >
+      Tasa Descuento: {{ p.periodicDiscountRate*100 | number:'1.1-1' }} %
+    </div>
+
   </div>
 
 

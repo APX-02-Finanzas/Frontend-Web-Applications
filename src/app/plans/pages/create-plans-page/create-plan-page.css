@@ -48,7 +48,9 @@
 
 .form-field.small {
   max-width: 220px;
+  flex: 0 0 220px;
 }
+
 
 .label {
   font-weight: 600;

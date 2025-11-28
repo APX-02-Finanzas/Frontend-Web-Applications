@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PlansService } from '../../services/plans.service';
@@ -22,8 +28,7 @@ export class EditPlanPage implements OnInit {
 
   planId = 0;
 
-  interestRateTypes = ['TEA'];
-  currencyOptions = ['PEN', 'USD', 'EUR'];
+  interestRateTypes = ['TEA', 'TNA'];
   graceTypes = ['T', 'P', 'S'];
 
   constructor(
@@ -60,19 +65,123 @@ export class EditPlanPage implements OnInit {
       interestRateType: ['TEA', Validators.required],
       currency: ['PEN', Validators.required],
 
-      // Reconfig de tasa
-      interestInstallmentNumber: [0, [Validators.min(0)]],
-      newAnnualRate: [0, [Validators.min(0)]],
-
-      // Periodo de gracia
-      graceInstallmentNumber: [0, [Validators.min(0)]],
-      gracePeriodType: ['T', Validators.required],
-
-      // Prepago
-      prepaymentInstallmentNumber: [0, [Validators.min(0)]],
-      prepaymentAmount: [0, [Validators.min(0)]],
+      // Configuración avanzada en grupos (rangos)
+      rateConfigs: this.fb.array([this.createRateConfigGroup()]),
+      graceConfigs: this.fb.array([this.createGraceConfigGroup()]),
+      prepaymentConfigs: this.fb.array([this.createPrepaymentConfigGroup()])
     });
   }
+
+
+  private createRateConfigGroup(): FormGroup {
+    return this.fb.group({
+      installments: [''],
+      newAnnualRate: [null, [Validators.min(0)]]
+    });
+  }
+
+  private createGraceConfigGroup(): FormGroup {
+    return this.fb.group({
+      installments: [''],
+      gracePeriodType: ['T', Validators.required]
+    });
+  }
+
+  private createPrepaymentConfigGroup(): FormGroup {
+    return this.fb.group({
+      installments: [''],
+      prepaymentAmount: [null, [Validators.min(0)]]
+    });
+  }
+
+  get rateConfigs(): FormArray {
+    return this.form.get('rateConfigs') as FormArray;
+  }
+
+  get graceConfigs(): FormArray {
+    return this.form.get('graceConfigs') as FormArray;
+  }
+
+  get prepaymentConfigs(): FormArray {
+    return this.form.get('prepaymentConfigs') as FormArray;
+  }
+
+  addRateConfig(): void {
+    this.rateConfigs.push(this.createRateConfigGroup());
+  }
+
+  removeRateConfig(index: number): void {
+    if (this.rateConfigs.length > 1) {
+      this.rateConfigs.removeAt(index);
+    }
+  }
+
+  addGraceConfig(): void {
+    this.graceConfigs.push(this.createGraceConfigGroup());
+  }
+
+  removeGraceConfig(index: number): void {
+    if (this.graceConfigs.length > 1) {
+      this.graceConfigs.removeAt(index);
+    }
+  }
+
+  addPrepaymentConfig(): void {
+    this.prepaymentConfigs.push(this.createPrepaymentConfigGroup());
+  }
+
+  removePrepaymentConfig(index: number): void {
+    if (this.prepaymentConfigs.length > 1) {
+      this.prepaymentConfigs.removeAt(index);
+    }
+  }
+
+
+  private parseInstallments(raw: string | null | undefined): number[] {
+    if (!raw) return [];
+
+    const numbers: number[] = [];
+
+    raw.split(',').forEach(part => {
+      const trimmed = part.trim();
+      if (!trimmed) return;
+
+      const rangeParts = trimmed.split('-').map(p => p.trim());
+
+      if (rangeParts.length === 1) {
+        const n = Number(rangeParts[0]);
+        if (Number.isFinite(n) && n > 0) numbers.push(n);
+        return;
+      }
+
+      // rango a-b
+      if (rangeParts.length === 2) {
+        let start = Number(rangeParts[0]);
+        let end = Number(rangeParts[1]);
+        if (!Number.isFinite(start) || !Number.isFinite(end)) return;
+
+        if (start > end) [start, end] = [end, start];
+
+        for (let i = start; i <= end; i++) {
+          numbers.push(i);
+        }
+      }
+    });
+
+    return Array.from(new Set(numbers)).sort((a, b) => a - b);
+  }
+
+  private numbersToCsv(nums: number[]): string {
+    return [...nums].sort((a, b) => a - b).join(',');
+  }
+
+  private clearFormArray(arr: FormArray): void {
+    while (arr.length > 0) {
+      arr.removeAt(0);
+    }
+  }
+
+  // ===== ciclo de vida =====
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -91,7 +200,6 @@ export class EditPlanPage implements OnInit {
 
     this.planId = id;
 
-    // Si vienes navegando con el plan ya cargado
     const navState = history.state as { plan?: Plan };
     if (navState && navState.plan) {
       this.patchFormWithPlan(navState.plan);
@@ -99,7 +207,6 @@ export class EditPlanPage implements OnInit {
       return;
     }
 
-    // Si no, lo pides al backend
     this.plansService.getById(id).subscribe({
       next: (plan) => {
         this.patchFormWithPlan(plan);
@@ -140,27 +247,103 @@ export class EditPlanPage implements OnInit {
       discountRate: p.discountRate ?? 0,
       annualInterestRate: p.annualInterestRate ?? 0,
       interestRateType: p.interestRateType ?? 'TEA',
-      currency: p.currency ?? 'PEN',
-
-      graceInstallmentNumber: 0,
-      gracePeriodType: 'T',
-      prepaymentInstallmentNumber: 0,
-      prepaymentAmount: 0,
+      currency: p.currency ?? 'PEN'
     });
 
-    if (p.interestRateConfigs && p.interestRateConfigs.length > 0) {
-      const firstCfg = p.interestRateConfigs[0];
-      this.form.patchValue({
-        interestInstallmentNumber: firstCfg.installmentNumber ?? 0,
-        newAnnualRate: firstCfg.newAnnualRate ?? 0
-      });
-    } else {
-      this.form.patchValue({
-        interestInstallmentNumber: 0,
-        newAnnualRate: 0
-      });
-    }
+    // Configuración avanzada
+    this.setRateConfigsFromPlan(p.interestRateConfigs || []);
+    this.setGraceConfigsFromPlan((p as any).gracePeriods || []);
+    this.setPrepaymentConfigsFromPlan((p as any).prepayments || []);
   }
+
+  private setRateConfigsFromPlan(
+    rateConfigs: { installmentNumber: number; newAnnualRate: number }[]
+  ): void {
+    this.clearFormArray(this.rateConfigs);
+
+    if (!rateConfigs.length) {
+      this.rateConfigs.push(this.createRateConfigGroup());
+      return;
+    }
+
+    const groups = new Map<number, number[]>();
+
+    rateConfigs.forEach(rc => {
+      if (!groups.has(rc.newAnnualRate)) {
+        groups.set(rc.newAnnualRate, []);
+      }
+      groups.get(rc.newAnnualRate)!.push(rc.installmentNumber);
+    });
+
+    groups.forEach((nums, rate) => {
+      const fg = this.createRateConfigGroup();
+      fg.patchValue({
+        installments: this.numbersToCsv(nums),
+        newAnnualRate: rate
+      });
+      this.rateConfigs.push(fg);
+    });
+  }
+
+  private setGraceConfigsFromPlan(
+    gracePeriods: { installmentNumber: number; gracePeriodType: string }[]
+  ): void {
+    this.clearFormArray(this.graceConfigs);
+
+    if (!gracePeriods.length) {
+      this.graceConfigs.push(this.createGraceConfigGroup());
+      return;
+    }
+
+    const groups = new Map<string, number[]>();
+
+    gracePeriods.forEach(gp => {
+      if (!groups.has(gp.gracePeriodType)) {
+        groups.set(gp.gracePeriodType, []);
+      }
+      groups.get(gp.gracePeriodType)!.push(gp.installmentNumber);
+    });
+
+    groups.forEach((nums, type) => {
+      const fg = this.createGraceConfigGroup();
+      fg.patchValue({
+        installments: this.numbersToCsv(nums),
+        gracePeriodType: type
+      });
+      this.graceConfigs.push(fg);
+    });
+  }
+
+  private setPrepaymentConfigsFromPlan(
+    prepayments: { installmentNumber: number; prepaymentAmount: number }[]
+  ): void {
+    this.clearFormArray(this.prepaymentConfigs);
+
+    if (!prepayments.length) {
+      this.prepaymentConfigs.push(this.createPrepaymentConfigGroup());
+      return;
+    }
+
+    const groups = new Map<number, number[]>();
+
+    prepayments.forEach(pp => {
+      if (!groups.has(pp.prepaymentAmount)) {
+        groups.set(pp.prepaymentAmount, []);
+      }
+      groups.get(pp.prepaymentAmount)!.push(pp.installmentNumber);
+    });
+
+    groups.forEach((nums, amount) => {
+      const fg = this.createPrepaymentConfigGroup();
+      fg.patchValue({
+        installments: this.numbersToCsv(nums),
+        prepaymentAmount: amount
+      });
+      this.prepaymentConfigs.push(fg);
+    });
+  }
+
+  // ===== submit =====
 
   onSubmit(): void {
     if (this.form.invalid) {
@@ -170,46 +353,90 @@ export class EditPlanPage implements OnInit {
 
     this.submitting = true;
 
+    // === Datos para conversión TNA -> TEA ===
+    const interestRateTypeControl =
+      (this.form.get('interestRateType')?.value ?? 'TEA').toString();
 
-    const interestRateConfigs: InterestRateConfig[] = [];
-    const interestInstallmentNumber =
-      Number(this.form.get('interestInstallmentNumber')?.value) || 0;
-    const newAnnualRate =
-      Number(this.form.get('newAnnualRate')?.value) || 0;
+    const daysPerYear =
+      Number(this.form.get('daysPerYear')?.value) || 360;
+    const paymentFrequency =
+      Number(this.form.get('paymentFrequency')?.value) || 30;
 
-    if (interestInstallmentNumber > 0 && newAnnualRate > 0) {
-      interestRateConfigs.push({
-        installmentNumber: interestInstallmentNumber,
-        newAnnualRate: newAnnualRate
-      });
-    }
+    const m = daysPerYear / paymentFrequency;
 
-    const gracePeriods: any[] = [];
-    const graceInstallmentNumber =
-      Number(this.form.get('graceInstallmentNumber')?.value) || 0;
-    const gracePeriodType =
-      (this.form.get('gracePeriodType')?.value ?? 'T').toString();
+    const toTeaIfTna = (ratePercent: number): number => {
+      if (interestRateTypeControl !== 'TNA') return ratePercent;
+      const nominal = ratePercent / 100;
+      const tea = Math.pow(1 + nominal / m, m) - 1;
+      return tea * 100;
+    };
 
-    if (graceInstallmentNumber > 0) {
-      gracePeriods.push({
-        installmentNumber: graceInstallmentNumber,
-        gracePeriodType: gracePeriodType
-      });
-    }
+    // === Cambios de tasa por rangos (convertimos a TEA si es TNA) ===
+    const interestRateConfigs: InterestRateConfig[] =
+      this.rateConfigs.controls.reduce(
+        (acc, group) => {
+          const installments = this.parseInstallments(
+            group.get('installments')?.value
+          );
+          let newAnnualRate =
+            Number(group.get('newAnnualRate')?.value) || 0;
 
-    // prepayments
-    const prepayments: any[] = [];
-    const prepaymentInstallmentNumber =
-      Number(this.form.get('prepaymentInstallmentNumber')?.value) || 0;
-    const prepaymentAmount =
-      Number(this.form.get('prepaymentAmount')?.value) || 0;
+          if (newAnnualRate <= 0 || installments.length === 0) return acc;
 
-    if (prepaymentInstallmentNumber > 0 && prepaymentAmount > 0) {
-      prepayments.push({
-        installmentNumber: prepaymentInstallmentNumber,
-        prepaymentAmount: prepaymentAmount
-      });
-    }
+          // Normalizamos a TEA si el tipo global es TNA
+          newAnnualRate = toTeaIfTna(newAnnualRate);
+
+          installments.forEach(n => {
+            acc.push({ installmentNumber: n, newAnnualRate });
+          });
+
+          return acc;
+        },
+        [] as InterestRateConfig[]
+      );
+
+    const gracePeriods: any[] = this.graceConfigs.controls.reduce(
+      (acc, group) => {
+        const installments = this.parseInstallments(
+          group.get('installments')?.value
+        );
+        const gracePeriodType =
+          (group.get('gracePeriodType')?.value ?? 'T').toString();
+
+        if (!gracePeriodType || installments.length === 0) return acc;
+
+        installments.forEach(n => {
+          acc.push({ installmentNumber: n, gracePeriodType });
+        });
+
+        return acc;
+      },
+      [] as { installmentNumber: number; gracePeriodType: string }[]
+    );
+
+    const prepayments: any[] = this.prepaymentConfigs.controls.reduce(
+      (acc, group) => {
+        const installments = this.parseInstallments(
+          group.get('installments')?.value
+        );
+        const prepaymentAmount =
+          Number(group.get('prepaymentAmount')?.value) || 0;
+
+        if (prepaymentAmount <= 0 || installments.length === 0) return acc;
+
+        installments.forEach(n => {
+          acc.push({ installmentNumber: n, prepaymentAmount });
+        });
+
+        return acc;
+      },
+      [] as { installmentNumber: number; prepaymentAmount: number }[]
+    );
+
+    // === Tasa anual principal normalizada (TEA) ===
+    const annualRateInput =
+      Number(this.form.get('annualInterestRate')?.value) || 0;
+    const annualRateToSend = toTeaIfTna(annualRateInput);
 
     const payload: any = {
       downPaymentPercentage:
@@ -245,12 +472,11 @@ export class EditPlanPage implements OnInit {
 
       discountRate:
         Number(this.form.get('discountRate')?.value) || 0,
-      interestRateType:
-        (this.form.get('interestRateType')?.value ?? 'TEA').toString(),
-      annualInterestRate:
-        Number(this.form.get('annualInterestRate')?.value) || 0,
 
-      // No está en tu JSON de ejemplo, pero tu Plan y tu form lo manejan
+      // Siempre TEA hacia el backend
+      interestRateType: 'TEA',
+      annualInterestRate: annualRateToSend,
+
       assetSalePrice:
         Number(this.form.get('assetSalePrice')?.value) || 0,
       currency:

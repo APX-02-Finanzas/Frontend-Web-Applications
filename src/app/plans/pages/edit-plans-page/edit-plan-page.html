@@ -14,7 +14,6 @@
         <!-- DATOS GENERALES -->
         <h2 class="section-title">Datos generales</h2>
         <div class="form-row">
-
           <div class="form-field">
             <label class="label">% Cuota inicial</label>
             <input class="input" type="number" formControlName="downPaymentPercentage" />
@@ -113,52 +112,134 @@
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-field">
-            <label class="label">Moneda</label>
-            <select class="input" formControlName="currency">
-              <option *ngFor="let c of currencyOptions" [value]="c">{{ c }}</option>
-            </select>
+
+
+        <h2 class="section-title">Configuración Avanzada</h2>
+
+
+        <!-- PERIODO DE GRACIA  -->
+        <div formArrayName="graceConfigs">
+          <div
+            class="form-row"
+            *ngFor="let group of graceConfigs.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="form-field">
+              <label class="label">Periodo de gracia (rango de cuotas)</label>
+              <input
+                class="input"
+                type="text"
+                placeholder="Ej: 1-3,6"
+                formControlName="installments"
+              />
+            </div>
+
+            <div class="form-field">
+              <label class="label">Tipo de periodo de gracia</label>
+              <select class="input" formControlName="gracePeriodType">
+                <option *ngFor="let g of graceTypes" [value]="g">{{ g }}</option>
+              </select>
+            </div>
+
+            <div class="form-field small">
+              <label class="label">&nbsp;</label>
+              <button
+                type="button"
+                class="edit-btn"
+                *ngIf="i === graceConfigs.length - 1"
+                (click)="addGraceConfig()"
+              >
+                + Añadir periodo de gracia
+              </button>
+              <button
+                type="button"
+                class="cancel-btn"
+                *ngIf="graceConfigs.length > 1"
+                (click)="removeGraceConfig(i)"
+              >
+                Quitar
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- RECONFIGURACIÓN DE TASA DE INTERÉS -->
-        <h2 class="section-title">Reconfiguración de tasa de interés (opcional)</h2>
-        <div class="form-row">
-          <div class="form-field">
-            <label class="label">Cuota a partir de la cual cambia la tasa (n°)</label>
-            <input class="input" type="number" formControlName="interestInstallmentNumber" />
-          </div>
-          <div class="form-field">
-            <label class="label">Nueva tasa anual (%)</label>
-            <input class="input" type="number" formControlName="newAnnualRate" />
+        <div formArrayName="prepaymentConfigs">
+          <div
+            class="form-row"
+            *ngFor="let group of prepaymentConfigs.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="form-field">
+              <label class="label">Prepago en cuota (rango)</label>
+              <input
+                class="input"
+                type="text"
+                placeholder="Ej: 5-8,10"
+                formControlName="installments"
+              />
+            </div>
+
+            <div class="form-field">
+              <label class="label">Monto de prepago</label>
+              <input
+                class="input"
+                type="number"
+                formControlName="prepaymentAmount"
+              />
+            </div>
+
+            <div class="form-field small">
+              <label class="label">&nbsp;</label>
+              <button
+                type="button"
+                class="edit-btn"
+                *ngIf="i === prepaymentConfigs.length - 1"
+                (click)="addPrepaymentConfig()"
+              >
+                + Añadir prepago
+              </button>
+
+            </div>
           </div>
         </div>
 
-        <h2 class="section-title">Periodo de gracia</h2>
-        <div class="form-row">
-          <div class="form-field">
-            <label class="label">Cuota (n°)</label>
-            <input class="input" type="number" formControlName="graceInstallmentNumber" />
-          </div>
-          <div class="form-field">
-            <label class="label">Tipo</label>
-            <select class="input" formControlName="gracePeriodType">
-              <option *ngFor="let g of graceTypes" [value]="g">{{ g }}</option>
-            </select>
-          </div>
-        </div>
+        <div formArrayName="rateConfigs">
+          <div
+            class="form-row"
+            *ngFor="let group of rateConfigs.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="form-field">
+              <label class="label">Cambio de tasa desde cuota (rango)</label>
+              <input
+                class="input"
+                type="text"
+                placeholder="Ej: 12,15-18"
+                formControlName="installments"
+              />
+            </div>
 
-        <!-- PREPAGO -->
-        <h2 class="section-title">Prepago</h2>
-        <div class="form-row">
-          <div class="form-field">
-            <label class="label">Cuota (n°)</label>
-            <input class="input" type="number" formControlName="prepaymentInstallmentNumber" />
-          </div>
-          <div class="form-field">
-            <label class="label">Monto</label>
-            <input class="input" type="number" formControlName="prepaymentAmount" />
+            <div class="form-field">
+              <label class="label">Nueva tasa anual (%)</label>
+              <input
+                class="input"
+                type="number"
+                formControlName="newAnnualRate"
+              />
+            </div>
+
+            <div class="form-field small">
+              <label class="label">&nbsp;</label>
+              <button
+                type="button"
+                class="edit-btn"
+                *ngIf="i === rateConfigs.length - 1"
+                (click)="addRateConfig()"
+              >
+                + Añadir cambio de tasa
+              </button>
+
+            </div>
           </div>
         </div>
 
