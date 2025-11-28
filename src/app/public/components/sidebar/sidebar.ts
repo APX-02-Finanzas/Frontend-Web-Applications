@@ -52,46 +52,45 @@ export class Sidebar implements OnInit, OnDestroy {
   }
 
   private loadUserData(): void {
-    const name = localStorage.getItem('user_name');
-    const surname = localStorage.getItem('user_surname');
-    const username = localStorage.getItem('username');
-    const localAvatar = localStorage.getItem('user_avatar');
+    const userData = localStorage.getItem('user_data');
 
-    if (localAvatar) {
-      this.avatarUrl = localAvatar;
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        this.setUserData(user);
+        return;
+      } catch (e) {
+        console.error('Error parsing user_data:', e);
+      }
     }
+    this.loadUserFromApi();
+  }
 
-    if (name && surname) {
-      this.fullName = `${name} ${surname}`.trim();
-      return;
-    } else if (username) {
-      this.fullName = username;
-      return;
+  private setUserData(user: any): void {
+    const userName = user.name || '';
+    const userSurname = user.surname || '';
+
+    this.fullName = `${userName} ${userSurname}`.trim();
+
+    if (!this.fullName) {
+      this.fullName = user.username || 'Usuario';
     }
+  }
 
+  private loadUserFromApi(): void {
     this.authService.fetchLoggedUser().subscribe({
       next: (user: any) => {
         if (user) {
-          const userName = user.name || user.firstName || user.username || '';
-          const userSurname = user.surname || user.lastName || '';
-          const avatarFromApi = user.avatar || user.photoUrl || user.profileImage || '';
-
-          this.fullName = `${userName} ${userSurname}`.trim() || user.username || 'Usuario';
-
-          if (userName) localStorage.setItem('user_name', userName);
-          if (userSurname) localStorage.setItem('user_surname', userSurname);
-          if (user.username) localStorage.setItem('username', user.username);
-          if (user.id !== undefined && user.id !== null) localStorage.setItem('user_id', user.id.toString());
-          if (avatarFromApi) {
-            this.avatarUrl = avatarFromApi;
-            try { localStorage.setItem('user_avatar', avatarFromApi); } catch (e) {}
+          this.setUserData(user);
+          try {
+            localStorage.setItem('user_data', JSON.stringify(user));
+          } catch (e) {
+            console.error('Error saving user data:', e);
           }
-          try { localStorage.setItem('user_data', JSON.stringify(user)); } catch (e) {}
         }
       },
       error: () => {
-        const username = localStorage.getItem('username');
-        this.fullName = username || 'Usuario';
+        this.fullName = 'Usuario';
       }
     });
   }
@@ -113,19 +112,8 @@ export class Sidebar implements OnInit, OnDestroy {
     event?.preventDefault();
 
     this.tokenService.resetToken();
+    this.authService.clearUserData();
 
-    localStorage.removeItem('user_name');
-    localStorage.removeItem('user_surname');
-    localStorage.removeItem('user_avatar');
-    localStorage.removeItem('username');
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('user_data');
-
-    this.router.navigate(['/auth']).then(() => {
-      console.log('Sesión cerrada correctamente');
-    }).catch(error => {
-      console.error('Error al navegar:', error);
-    });
+    this.router.navigate(['/auth']);
   }
 }

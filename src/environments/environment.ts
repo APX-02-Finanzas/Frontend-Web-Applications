@@ -6,5 +6,5 @@ export const environment = {
   clientsEndpointPath: '/clients',
   propertiesEndpointPath: '/properties',
   creditsEndpointPath: '/payment-plans',
-
+  captchaEndpointPath: '/captcha'
 };
