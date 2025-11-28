@@ -3,6 +3,7 @@
     <app-client-card
       *ngFor="let client of clients"
       [client]="client"
+      (deleted)="onDeleted($event)"
       class="client-grid-item">
     </app-client-card>
   </div>

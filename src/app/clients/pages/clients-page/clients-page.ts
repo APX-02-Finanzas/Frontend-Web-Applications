@@ -56,4 +56,8 @@ export class ClientsPage implements OnInit {
   onCreate(): void {
     this.router.navigate(['/clients/create']);
   }
+
+  onChildDeleted(id: number) {
+    this.clients = this.clients.filter(p => p.id !== id);
+  }
 }

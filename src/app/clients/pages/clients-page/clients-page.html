@@ -15,7 +15,8 @@
 
     <app-client-list
       *ngIf="!loading && !error"
-      [clients]="clients">
+      [clients]="clients"
+      (deleted)="onChildDeleted($event)">
     </app-client-list>
   </div>
 
