@@ -1,0 +1,103 @@
+<section class="claims-container">
+  <header class="claims-header">
+    <h1>Libro de Reclamaciones</h1>
+    <p>
+      Registra aquí tu reclamo o queja. Nos comunicaremos contigo lo antes posible.
+    </p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="claims-form">
+    <fieldset>
+      <legend>Datos del consumidor</legend>
+
+      <div class="field-group">
+        <label>
+          Nombre completo *
+          <input type="text" formControlName="fullName" />
+        </label>
+        <div class="error" *ngIf="form.get('fullName')?.touched && form.get('fullName')?.invalid">
+          Ingresa tu nombre completo.
+        </div>
+      </div>
+
+      <div class="field-row">
+        <label>
+          Tipo de documento *
+          <select formControlName="documentType">
+            <option value="DNI">DNI</option>
+            <option value="CE">Carné de extranjería</option>
+            <option value="PAS">Pasaporte</option>
+          </select>
+        </label>
+
+        <label>
+          N° de documento *
+          <input type="text" formControlName="documentNumber" />
+        </label>
+      </div>
+
+      <div class="field-row">
+        <label>
+          Correo electrónico *
+          <input type="email" formControlName="email" />
+        </label>
+
+        <label>
+          Teléfono / Celular *
+          <input type="tel" formControlName="phone" />
+        </label>
+      </div>
+
+      <div class="field-group">
+        <label>
+          Dirección
+          <input type="text" formControlName="address" />
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Detalle del reclamo</legend>
+
+      <div class="field-row">
+        <label>
+          Tipo *
+          <select formControlName="claimType">
+            <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+          </select>
+        </label>
+        <label>
+          Fecha del incidente *
+          <input type="date" formControlName="incidentDate" />
+        </label>
+      </div>
+
+
+      <div class="field-group">
+        <label>
+          Descripción del reclamo / queja *
+          <textarea rows="4" formControlName="description"></textarea>
+        </label>
+      </div>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Confirmación</legend>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="acceptTerms" />
+        Declaro que la información ingresada es veraz y corresponde a mi reclamo.
+      </label>
+      <div class="error" *ngIf="form.get('acceptTerms')?.touched && form.get('acceptTerms')?.invalid">
+        Debes aceptar esta declaración para registrar tu reclamo.
+      </div>
+    </fieldset>
+
+    <div class="actions">
+      <button type="submit" [disabled]="submitting">
+        {{ submitting ? 'Enviando...' : 'Enviar reclamo' }}
+      </button>
+    </div>
+  </form>
+</section>

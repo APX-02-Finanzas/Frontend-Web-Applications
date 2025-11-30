@@ -14,6 +14,7 @@ import {PlanPage} from './plans/pages/plans-page/plan-page';
 import {CreatePlanPage} from './plans/pages/create-plans-page/create-plan-page';
 import {EditPlanPage} from './plans/pages/edit-plans-page/edit-plan-page';
 import {DetailPlanPage} from './plans/pages/detail-plans-page/detail-plan-page';
+import {ClaimsFormPage} from './public/components/claims-form-page/claims-form-page';
 
 export const routes: Routes = [
   { path: "", redirectTo: "/auth", pathMatch: "full" },
@@ -35,7 +36,10 @@ export const routes: Routes = [
       { path: "plans/create", component: CreatePlanPage },
       { path: "plans/:id", component: DetailPlanPage },
       { path: 'plans/edit/:id', component: EditPlanPage },
-      { path: "**", component: NotFoundPage }
+      { path: 'claims', component: ClaimsFormPage },
+      { path: "**", component: NotFoundPage },
+
+
     ]
   },
 ];

@@ -26,9 +26,15 @@
   <div class="bottom">
 
 
-    <a href="javascript:void(0)" class="menu-item libro">  <!-- agregar form -->
+    <a
+      href="#"
+      class="menu-item libro"
+      (click)="openClaimsForm($event)"
+      aria-label="Libro de Reclamaciones"
+    >
       <img class="icon" src="/assets/book.png" alt="Libro de Reclamaciones" />
     </a>
+
 
     <a href="#" class="logout" (click)="logout($event)">
       <img class="icon" src="/assets/ic_logout.png" alt="Salir" />
