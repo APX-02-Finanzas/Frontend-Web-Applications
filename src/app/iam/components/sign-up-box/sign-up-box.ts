@@ -24,6 +24,7 @@ export class SignUpBox implements OnInit, OnDestroy, AfterViewInit {
   captchaLoading = false;
   private captchaSub?: Subscription;
   private isComponentActive = true;
+  showTerms = false;
 
   constructor(
     private fb: FormBuilder,
@@ -186,7 +187,14 @@ export class SignUpBox implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  toggleTerms(event?: Event): void {
+    event?.preventDefault();
+    this.showTerms = !this.showTerms;
+  }
 
+  closeTerms(): void {
+    this.showTerms = false;
+  }
   onSwitchToSignIn(event: Event): void {
     event.preventDefault();
     this.switchTo.emit('sign-in');
