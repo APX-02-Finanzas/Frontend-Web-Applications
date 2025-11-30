@@ -87,7 +87,10 @@
   <div class="field terms-field">
     <label class="terms-container">
       <input type="checkbox" formControlName="terms" />
-      <span>Acepto los <a href="javascript:void(0)" >Términos y Condiciones</a></span>
+      <span>
+      Acepto los
+      <a href="#" (click)="toggleTerms($event)">Términos y Condiciones</a>
+    </span>
     </label>
 
     <div class="terms-error" *ngIf="termsCtrl?.touched && termsCtrl?.invalid">
@@ -114,3 +117,40 @@
     ¿Ya tienes una cuenta? <a href="#" (click)="onSwitchToSignIn($event)">Iniciar sesión</a>
   </div>
 </form>
+<div class="terms-backdrop" *ngIf="showTerms">
+  <div class="terms-modal">
+    <header class="terms-header">
+      <h2>Términos y condiciones de la aplicación</h2>
+      <button type="button" class="close-btn" (click)="closeTerms()">✕</button>
+    </header>
+
+    <div class="terms-body">
+      <p>
+        Esta aplicación está diseñada para gestionar cuentas de usuario, registrar
+        solicitudes y facilitar la atención comercial de manera digital. Al crear
+        una cuenta, aceptas usar la plataforma de forma responsable y conforme a la
+        normativa vigente.
+      </p>
+      <p>
+        Los datos personales que proporciones (nombre, correo, usuario, etc.) serán
+        utilizados únicamente para crear tu cuenta, autenticar tu acceso y
+        comunicarte información relacionada a nuestros servicios. No compartiremos
+        tu información con terceros no autorizados, salvo obligación legal.
+      </p>
+      <p>
+        Nos reservamos el derecho de suspender o bloquear cuentas que realicen un
+        uso indebido del sistema, intenten vulnerar la seguridad o incumplan estos
+        términos. El acceso a la plataforma puede verse limitado por mantenimientos
+        o incidencias técnicas.
+      </p>
+      <p>
+        Al continuar con el registro, declaras que la información ingresada es
+        veraz y aceptas estos términos y condiciones de uso de la aplicación.
+      </p>
+    </div>
+
+    <footer class="terms-footer">
+      <button type="button" (click)="closeTerms()">Aceptar</button>
+    </footer>
+  </div>
+</div>

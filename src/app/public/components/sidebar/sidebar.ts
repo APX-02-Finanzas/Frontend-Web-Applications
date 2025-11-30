@@ -116,4 +116,9 @@ export class Sidebar implements OnInit, OnDestroy {
 
     this.router.navigate(['/auth']);
   }
+  openClaimsForm(event?: Event) {
+    event?.preventDefault();
+    this.router.navigate(['/claims']); // o la ruta que prefieras
+  }
+
 }
