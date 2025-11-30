@@ -84,6 +84,20 @@
     </div>
   </div>
 
+  <div class="field terms-field">
+    <label class="terms-container">
+      <input type="checkbox" formControlName="terms" />
+      <span>Acepto los <a href="javascript:void(0)" >Términos y Condiciones</a></span>
+    </label>
+
+    <div class="terms-error" *ngIf="termsCtrl?.touched && termsCtrl?.invalid">
+      Debes aceptar los términos y condiciones.
+    </div>
+  </div>
+
+
+
+
   <div style="margin-top:14px; display:flex; justify-content:center;">
     <div id="recaptcha-container"></div>
   </div>

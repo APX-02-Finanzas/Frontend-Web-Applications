@@ -106,18 +106,38 @@
 }
 
 .bottom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 8px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+
+.bottom .menu-item.libro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 5px;
+  border-radius: 8px;
+  transition: background 0.12s ease;
+}
+
+.bottom .menu-item.libro:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.menu-item.libro .icon {
+  width: 150px !important;
+  height: 80px !important;
+  filter: brightness(0) invert(1);
 }
 
 .logout {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
+  padding: 15px 12px;
   width: 100%;
   color: #ffffff;
   text-decoration: none;
