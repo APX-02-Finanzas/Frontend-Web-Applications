@@ -22,7 +22,17 @@
         <div class="form-field">
           <label class="label">Precio de venta *</label>
           <input class="input" type="number" formControlName="price" />
+          <div class="inline-error"
+               *ngIf="form.get('price')?.touched && form.get('price')?.errors">
+          <span *ngIf="form.get('price')?.errors?.['required']">
+          El precio de venta es obligatorio.
+         </span>
+            <span *ngIf="form.get('price')?.errors?.['max']">
+            El precio de venta no puede ser mayor a 427,600.
+          </span>
+          </div>
         </div>
+
 
         <div class="form-field">
           <label class="label">Tipo de cambio *</label>

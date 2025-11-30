@@ -32,7 +32,7 @@ export class CreatePropertiesPage {
     this.form = this.fb.group({
       title: ['', Validators.required],
       address: ['', Validators.required],
-      price: [0, [Validators.required, Validators.min(0)]],
+      price: [0, [Validators.required, Validators.min(0),Validators.max(427600)]],
       currency: ['PEN', Validators.required],
       m2: [0, [Validators.required, Validators.min(0)]],
       rooms: [1, [Validators.required, Validators.min(1)]]
@@ -71,6 +71,7 @@ export class CreatePropertiesPage {
     const priceInPen = originalPrice * rate;
 
     const payload = {
+
       title: this.form.get('title')?.value,
       description: '',
       address: this.form.get('address')?.value,
@@ -79,6 +80,7 @@ export class CreatePropertiesPage {
       currency: 'PEN',
 
       originalCurrency: currency,
+
       originalPrice: originalPrice,
 
       salesManId,
