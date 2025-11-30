@@ -37,6 +37,7 @@ export class SignUpBox implements OnInit, OnDestroy, AfterViewInit {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', Validators.required],
+      terms: [false, Validators.requiredTrue]
     }, { validators: this.passwordsMatchValidator });
   }
 
@@ -185,8 +186,11 @@ export class SignUpBox implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+
   onSwitchToSignIn(event: Event): void {
     event.preventDefault();
     this.switchTo.emit('sign-in');
   }
+
+  get termsCtrl() { return this.form.get('terms'); }
 }

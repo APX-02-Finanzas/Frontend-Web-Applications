@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Client } from '../../model/client.entity';
 import { ClientCard } from '../client-card/client-card';
@@ -12,4 +12,9 @@ import { ClientCard } from '../client-card/client-card';
 })
 export class ClientList {
   @Input() clients: Client[] = [];
+  @Output() deleted = new EventEmitter<number>();
+
+  onDeleted(id: number) {
+    this.deleted.emit(id);
+  }
 }

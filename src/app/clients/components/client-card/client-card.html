@@ -1,46 +1,56 @@
 <div class="client-card">
-  <h3 class="client-name">{{ client.name }}</h3>
+  <h3 class="client-name">{{ client.name }} {{ client.surname }}</h3>
 
   <div class="client-details">
     <div class="detail-item">
-      <span class="label">DNI:</span>
+      <span class="label"><strong>DNI:</strong></span>
       <span class="value">{{ client.dni }}</span>
     </div>
 
     <div class="detail-item">
-      <span class="label">Email:</span>
+      <span class="label"><strong>Email:</strong></span>
       <span class="value">{{ client.email }}</span>
     </div>
 
     <div class="detail-item">
-      <span class="label">Celular:</span>
+      <span class="label"><strong>Celular:</strong></span>
       <span class="value">{{ client.phone }}</span>
     </div>
 
     <div class="detail-item">
-      <span class="label">Ingreso mensual:</span>
+      <span class="label"><strong>Estado civil:</strong></span>
+      <span class="value">{{ getCivilStateLabel() }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="label"><strong>Ingreso mensual:</strong></span>
       <span class="value">S/. {{ client.monthlyIncome | number }}</span>
     </div>
 
     <div class="detail-item">
-      <span class="label">Gasto mensual:</span>
+      <span class="label"><strong>Gasto mensual:</strong></span>
       <span class="value">S/. {{ client.monthlyExpenses | number }}</span>
     </div>
 
     <div class="detail-item">
-      <span class="label">Vivienda estatal previa:</span>
+      <span class="label"><strong>Vivienda estatal previa:</strong></span>
       <span class="value">{{ client.hasPreviousStateHousing ? 'Sí' : 'No' }}</span>
     </div>
 
     <div class="detail-item">
-      <span class="label">Puede aplicar a bono:</span>
+      <span class="label"><strong>Puede aplicar a bono:</strong></span>
       <span class="value" [class.can-apply]="client.canApplyForBono" [class.cannot-apply]="!client.canApplyForBono">
         {{ client.canApplyForBono ? 'Sí' : 'No' }}
       </span>
     </div>
   </div>
 
-  <button class="edit-btn" (click)="onEdit()">
-    Editar Cliente
-  </button>
+  <div class="client-footer">
+    <button class="edit-btn" (click)="onEdit()">
+      Editar Cliente
+    </button>
+    <button class="delete-btn" (click)="onDelete()">
+      Eliminar Cliente
+    </button>
+  </div>
 </div>
