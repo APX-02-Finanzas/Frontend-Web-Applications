@@ -5,7 +5,8 @@
   padding: 24px 32px;
   overflow-y: auto;
   background-color: #f4f4f4;
-}
+  overflow-x: scroll; }
+
 .plan-header {
   display: flex;
   align-items: center;
@@ -20,15 +21,14 @@
 }
 
 .table-container {
-  width: 80%;
-  max-width: 1300vh;
+  width: 75%;
+  max-width: 1200vh;
   border-radius: 18px;
   border: 1px solid #c4c4c4;
   background-color: #ffffff;
   overflow: hidden;
   overflow-y: auto;
-  overflow-x: auto;
-}
+  overflow-x: auto; }
 
 .installments-table {
   width: 100%;
@@ -120,18 +120,21 @@
 .currency-toggle button:not(:last-child) {
   border-right: 1px solid #c4c4c4;
 }
-
+.indicatror-container{
+  display: flex;
+}
 .indicators-box {
 
 
   width: 100%;
-  max-width: 350px;
+  max-width: 450px;
   background: #ffffff;
   border: 1px solid #c4c4c4;
   border-radius: 12px;
   padding: 12px 20px;
   margin: 20px 1px;
 }
+
 
 .indicators-table {
   width: 100%;

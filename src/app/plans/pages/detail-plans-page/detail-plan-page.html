@@ -25,28 +25,66 @@
       </button>
     </div>
   </div>
+<div class="indicatror-container">
+  <div class="indicators-box" *ngIf="plan">
+    <table class="indicators-table">
+      <tr>
+        <th>Total de intereses</th>
+        <td>{{ plan.totalInterest | number:'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <th>Total de amortizacion</th>
+        <td>{{ plan.totalAmortization | number:'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <th>Seguro de desgravamente</th>
+        <td>{{ plan.totalCreditLifeInsurance | number:'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <th>Seguro contra todo riesgo</th>
+        <td>{{ plan.totalRiskInsurance | number:'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <th>Comisiones periodicas</th>
+        <td>{{ plan.totalCommissions | number:'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <th>Portes / Gastos de adm.</th>
+        <td>{{ plan.totalPostageAndFees | number:'1.2-2' }}</td>
+      </tr>
+    </table>
 
+  </div>
   <div class="indicators-box" *ngIf="plan">
     <table class="indicators-table">
       <tr>
         <th>Tasa de descuento</th>
-        <td>{{ plan.discountRate | number:'1.4-4' }}%</td>
+        <td>{{ plan.periodicDiscountRate*100 | number:'1.4-4' }}%</td>
       </tr>
       <tr>
         <th>TIR de la operación</th>
-        <td>{{ plan.irr | number:'1.4-4' }}%</td>
+        <td>{{ plan.irr*100 | number:'1.4-4' }}%</td>
       </tr>
       <tr>
         <th>TCEA de la operación</th>
-        <td>{{ plan.effectiveAnnualCostRate | number:'1.4-4' }}%</td>
+        <td>{{ plan.effectiveAnnualCostRate*100 | number:'1.4-4' }}%</td>
       </tr>
       <tr>
         <th>VAN operación</th>
         <td>{{ plan.npv / exchangeRate | currency:currency:'symbol':'1.2-2' }}</td>
       </tr>
+      <tr>
+        <th>Monto del prestamo</th>
+        <td>{{ plan.loanAmount| number:'1.2-2' }}</td>
+      </tr>
+      <tr>
+        <th>Nº Total de Cuotas</th>
+        <td>{{ plan.totalInstallments | number:'1.1-1' }}</td>
+      </tr>
     </table>
-  </div>
 
+  </div>
+</div>
   <div class="table-container">
     <table class="installments-table">
       <thead>
@@ -82,9 +120,9 @@
         <td>{{ getInstallmentDate(i) | date:'dd/MM/yyyy' }}</td>
 
         <td>{{ i.annualEffectiveRate | number:'1.2-2' }}%</td>
-        <td>{{ i.periodEffectiveRate | number:'1.2-2' }}%</td>
-        <td>{{ i.annualInflation | number:'1.2-2' }}%</td>
-        <td>{{ i.periodInflation | number:'1.2-2' }}%</td>
+        <td>{{ i.periodEffectiveRate*100 | number:'1.2-2' }}%</td>
+        <td>{{ i.annualInflation*100 | number:'1.2-2' }}%</td>
+        <td>{{ i.periodInflation*100 | number:'1.2-2' }}%</td>
 
         <td>{{ i.gracePeriodType }}</td>
 
